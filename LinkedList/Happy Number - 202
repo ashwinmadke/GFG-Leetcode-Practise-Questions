@@ -1,0 +1,28 @@
+// https://leetcode.com/problems/happy-number/
+// TC -> O(k * log n)
+// SC -> O(k) 
+Where:
+n: The input number
+k: The number of iterations until finding a cycle or reaching 1.
+
+class Solution {
+    public boolean isHappy(int n) {
+        //set to keep track of resultant num in each iteration
+        Set<Integer> seen = new HashSet<>();
+
+        //run a loop until resultant no is not in set
+        while( !seen.contains(n)){
+            seen.add(n); //add num into set first
+            int sum = 0; // declare local var to keep track of sum
+
+            //calculate sum of squares of each digit
+            while(n!=0){
+                int temp = n % 10;// get the reminder
+                sum += temp * temp;//do square
+                n = n/10;
+            }
+            n = sum; // the resultant num will be treated as input num in next iteration
+        }
+        return n==1;
+    }
+}
