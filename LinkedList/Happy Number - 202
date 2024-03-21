@@ -26,3 +26,37 @@ class Solution {
         return n==1;
     }
 }
+
+// Optimized Code
+// TC -> O(log n)
+// SC -> O(1)
+
+class Solution {
+    public boolean isHappy(int n) {
+        
+        int slow = n;
+        int fast = n;
+        
+        do{
+            //  move slow number by one iteration
+            slow = findSquare(slow);
+            fast = findSquare(findSquare(fast));  //  move fast number by two iteration
+        }
+        while(slow != fast);
+            if(slow == 1){
+                return true;
+            }
+        return false;
+        
+        
+    }
+    static int findSquare(int n){
+        int squareSum = 0;
+        
+        while(n != 0){
+            squareSum += (n % 10) * (n % 10);
+            n /= 10;
+        }
+        return squareSum;
+    }
+}
