@@ -1,0 +1,84 @@
+// https://leetcode.com/problems/palindrome-linked-list/
+// TC -> O(N)
+// SC -> O(N)
+
+Naive approach
+// copy the elements of the linked list into list & use two pointers approach
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        
+        if(head == null || head.next == null){
+            return true;
+        }
+        List<Integer> l = new ArrayList<>();
+        while(head != null){
+            l.add(head.val);
+            head = head.next;
+        }
+        int start = 0;
+        int end = l.size()-1;
+        
+        while(start < end){
+            if(l.get(start) != l.get(end)){
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+        
+    }
+}
+
+
+// Optimal Approach
+// TC -> O(N)
+// SC -> O(1)
+
+// find middle & reverse linked & compare elements 
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        
+        // find middle
+        ListNode fast = head;
+        ListNode slow = head;
+        
+        while(fast.next != null && fast.next.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        
+        // in odd list , lets keep right side smaller, fast will not be null
+        if(fast != null){
+            slow= slow.next;
+        }
+        
+        // reverse second half
+        fast = head;
+        slow = reverseList(slow);
+        
+        // comparing elements
+        while(slow != null){
+            if(fast.val != slow.val)
+                return false;
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return true;  
+        
+    }
+    
+    public ListNode reverseList(ListNode head){
+        ListNode curr = head;
+        ListNode prev = null;
+        ListNode next = null;
+        
+        while(curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+}
