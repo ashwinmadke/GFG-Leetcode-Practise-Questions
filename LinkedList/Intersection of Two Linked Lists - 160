@@ -25,3 +25,30 @@ public class Solution {
         
     }
 }
+
+// Optimal Approach - take hashset put listA all elements & now check if listB elements found in hashset, if common return intersection node.
+// TC-> O(n)
+// SC-> O(n)
+
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        HashSet<ListNode> map = new HashSet<>();
+        ListNode temp = headA;
+        
+        while(temp != null){
+            // add listA items into hashset
+            map.add(temp);
+            temp = temp.next;
+        }
+        temp = headB;
+        
+        //traverse over listB & compare listB nodes with the elements of hashset, if match return node
+        while(temp != null){
+            if(map.contains(temp)) {
+                return temp;
+            }
+            temp = temp.next;
+        }
+        return temp;
+    }
+}
