@@ -1,0 +1,27 @@
+// https://leetcode.com/problems/intersection-of-two-linked-lists/
+// Reference - https://www.topcoder.com/thrive/articles/intersection-of-two-linkedlists
+// TC-> O(m*n)
+// SC-> O(1)
+// Brute Force - compare each node of the either list 1 or list 2 in any linked list, to compare need to traverse of linked List using two loop. Run two loop untill list reaches to null.
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        
+        ListNode currA = headA;
+        ListNode currB = headB;
+        ListNode ans = null;
+        
+        while(currA != null){
+            currB = headB;
+            
+            while(currB != null){
+                if(currA == currB){
+                    return currA;
+                }
+                currB = currB.next;
+            }
+            currA = currA.next;
+        }
+        return ans;
+        
+    }
+}
