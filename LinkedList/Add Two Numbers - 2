@@ -1,0 +1,39 @@
+// https://leetcode.com/problems/add-two-numbers/
+// TC -> O(N)
+// SC -> O(N)
+
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        // creating new List to store result
+        ListNode result = new ListNode(0);
+        ListNode ptr = result; // Pointer to traverse the result list
+        
+        int carry = 0; // Variable to store the carry during addition
+
+        // Iterate through both lists until both are completed
+        while(l1 != null || l2 != null){
+             int sum = 0 + carry; // Initialize sum with the carry from the previous operation
+
+            // If l1 is not null, add its value to the sum
+            if(l1 != null){
+                sum += l1.val;
+                l1 = l1.next; // move to next node
+            }
+            / If l2 is not null, add its value to the sum
+            if(l2 != null){
+                sum += l2.val;
+                l2 = l2.next; // move to next node
+            }
+            
+            // split sum & carry
+            carry = sum/10; // get carry
+            sum = sum%10; // get sum
+            ptr.next = new ListNode(sum); // Add the new node with the sum value to the result list
+            ptr = ptr.next; // Move the pointer to the newly added node
+        }
+        if(carry == 1) ptr.next = new ListNode(1); // If there is a remaining carry, add a new node with its value
+        return result.next;
+        
+        
+    }
+}
