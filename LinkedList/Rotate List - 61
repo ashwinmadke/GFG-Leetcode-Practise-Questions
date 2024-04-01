@@ -1,0 +1,55 @@
+// https://leetcode.com/problems/rotate-list/
+// TC-> O(N)
+// SC-> O(1)
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        // If the linked list is empty or rotation is unnecessary, return the head.
+        if(head == null || k == 0) return head;
+        
+        // Initialize a pointer to the head of the linked list.
+        ListNode tail = head;
+        int len = 1; // Length of the linked list, initially 1 as there's at least one node.
+        
+        // Traverse the linked list to find the tail and calculate its length.
+        while(tail.next != null){
+            tail = tail.next;
+            len += 1; // Increment length for each node traversed.
+        }
+        
+        // If rotation is a multiple of the length, rotation is unnecessary, return the head.
+        if(k % len == 0) return head;
+        
+        // Calculate the effective rotation value.
+        k = k % len;
+        
+        // Connect the tail to the head to make it a circular linked list.
+        tail.next = head;
+        
+        // Find the new last node after rotation (len - kth node from the beginning).
+        ListNode newLastNode = findNthNode(head, len-k);
+        
+        // Update the head to the node following the new last node.
+        head = newLastNode.next;
+        
+        // Disconnect the new last node to make the list linear again.
+        newLastNode.next = null;
+        
+        // Return the head of the rotated linked list.
+        return head;
+    }
+    
+    public ListNode findNthNode(ListNode temp, int k){
+        int count = 1; // Counter to track the position of the node.
+        
+        // Traverse the linked list until the desired node is found.
+        while(temp != null){
+            if(count == k) return temp; // Return the node when its position matches the desired position.
+            count++; // Increment the counter for each node traversed.
+            temp = temp.next; // Move to the next node.
+        }
+        
+        // If the desired node is not found, return null.
+        return temp;
+    }
+}
