@@ -1,0 +1,69 @@
+// https://leetcode.com/problems/merge-k-sorted-lists/
+// TC -> O(log k*N) , where n is the total number of nodes in all lists and k is the number of lists.
+// SC -> O(n + log k), where n is the total number of nodes in all lists and k is the number of lists.
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    
+    //function to merge two sorted list
+    private ListNode mergeTwoSortedList(ListNode l1, ListNode l2){
+        
+        //yadi l1 null rahi to mera ans l2 ho jayega
+        // or yadi l2 null rhi to mera ans l1 ho jayega
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        
+        if(l1.val <= l2.val){
+            l1.next = mergeTwoSortedList(l1.next, l2);
+            return l1;
+        }
+        else{
+            l2.next = mergeTwoSortedList(l1, l2.next);
+            return l2;
+        }
+        
+    }
+    
+    // partition & merge function
+    private ListNode partitionAndMerge(int start, int end, ListNode[] lists){
+        if(start > end){
+            return null;
+        }
+        
+        // yadi ek he list hai to vhi return krdo
+        if(start == end){
+            return lists[start];
+        }
+        
+        // mid
+        int mid = start + (end - start) / 2;
+        
+        // jab todege to nya list milega bda wala
+        ListNode L1 = partitionAndMerge(start, mid, lists);
+        ListNode L2 = partitionAndMerge(mid+1, end, lists);
+        
+        return mergeTwoSortedList(L1, L2);
+    }
+    
+    
+    public ListNode mergeKLists(ListNode[] lists) {
+        
+        int k = lists.length;
+        
+        if(k == 0){
+            return null;
+        }
+        
+        return partitionAndMerge(0,k-1, lists);
+        
+    }
+}
