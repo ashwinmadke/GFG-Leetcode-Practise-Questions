@@ -1,0 +1,37 @@
+// https://www.geeksforgeeks.org/problems/flattening-a-linked-list/1
+// TC -> O(M*N*N), where N is no of nodes, & M is the length of bottom LL
+// SC -> O(N*M) recursion wala
+// Auxilary Space - O(1)
+
+class GfG
+{
+     //function to merge two sorted list
+     Node mergeTwoSortedList(Node l1, Node l2){
+        
+        //yadi l1 null rahi to mera ans l2 ho jayega
+        // or yadi l2 null rhi to mera ans l1 ho jayega
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        
+        if(l1.data <= l2.data){
+            l1.bottom = mergeTwoSortedList(l1.bottom, l2);
+            return l1;
+        }
+        else{
+            l2.bottom = mergeTwoSortedList(l1, l2.bottom);
+            return l2;
+        }
+        
+    }
+    Node flatten(Node head)
+    {
+	// Your code here
+	if(head == null){
+	    return null;
+	}
+	Node head2 = flatten(head.next);
+	return mergeTwoSortedList(head, head2);
+	
+    }
+    
+}
