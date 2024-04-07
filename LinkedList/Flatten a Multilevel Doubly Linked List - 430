@@ -1,0 +1,36 @@
+// https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/
+// TC -> O(N)
+// SC -> O(N)
+
+class Solution {
+    public Node flatten(Node head) {
+        if(head == null){
+            return head;
+        }
+        Node curr = head;
+        // Stack to store nodes for backtracking
+        Stack<Node> st = new Stack<>();
+        while(curr != null){
+            // save next node for later while we traverse the child
+            if(curr.child !=null){
+                if(curr.next != null){
+                    st.push(curr.next);
+                }
+                // setting parent  node's next to its child & child'd prev to its parent
+                curr.next = curr.child;
+                curr.child.prev = curr;
+                curr.child = null; // Clear the child pointer as it's been traversed
+            }
+            // If we are at the end of the level and there are nodes in the stack, backtrack
+            if(curr.next == null && !st.isEmpty()){
+                // Pop the next node from the stack and link it with the current node
+                curr.next = st.pop();
+                curr.next.prev = curr;
+            }
+            //move to next node
+            curr = curr.next;
+        }
+        return head;
+        
+    }
+}
