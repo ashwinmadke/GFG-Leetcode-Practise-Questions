@@ -1,0 +1,62 @@
+// https://leetcode.com/problems/reverse-nodes-in-k-group/
+// TC-> O(N)
+// SC-> O(N/K), N is the number of nodes in LL , and K is size of segments we hhad to reverse.
+
+class Solution {
+    // Method to reverse every 'k' nodes in a linked list
+    public ListNode reverseKGroup(ListNode head, int k) {
+        // Initialize the total number of nodes visited to 0
+        int totalNodes = 0;
+        
+        // Start from the head of the list
+        ListNode currNode = head;
+        
+        // Traverse the list until either the end of the list is reached or 'k' nodes are visited
+        while (currNode != null && totalNodes < k){
+            // Move to the next node
+            currNode = currNode.next;
+            
+            // Increment the count of visited nodes
+            totalNodes++;
+        }
+        
+        // If the total number of visited nodes is less than 'k', 
+        // the list doesn't have enough nodes to reverse, so return the original head
+        if(totalNodes < k){
+            return head;
+        }
+
+        // Reset the current node to the head of the list
+        currNode = head;
+        
+        // Initialize pointers for reversal
+        ListNode prevNode = null;
+        ListNode nextNode = null;
+        
+        // Initialize the count of nodes processed to 0
+        int nodeCount = 0;
+
+        // Reverse 'k' nodes in the list
+        while (nodeCount < k){
+            // Store the next node to avoid losing reference
+            nextNode = currNode.next;
+            
+            // Reverse the link of the current node to point to the previous node
+            currNode.next = prevNode;
+            
+            // Move pointers one step forward for next iteration
+            prevNode = currNode;
+            currNode = nextNode;
+            
+            // Increment the count of processed nodes
+            nodeCount++;
+        }
+        
+        // Recursively reverse the remaining list starting from the next node
+        head.next = reverseKGroup(nextNode,k);
+        
+        // 'prevNode' now points to the new head of the reversed group,
+        // so return it as the head of the reversed sublist
+        return prevNode;   
+    }
+}
