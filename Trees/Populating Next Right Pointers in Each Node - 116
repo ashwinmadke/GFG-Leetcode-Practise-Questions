@@ -1,0 +1,50 @@
+// https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
+// TC -> O(N)
+// SC -> O(N)
+
+class Solution {
+    public Node connect(Node root) {
+        // Check if the root is null
+        if(root == null){
+            return null; // If root is null, return null
+        }
+        
+        // queue to perform level order traversal
+        Queue<Node> treeNodes = new LinkedList<Node>();
+        treeNodes.add(root); // Add the root node to the queue
+        
+        // Perform level order traversal until the queue is empty
+        while(!treeNodes.isEmpty()){
+            // Get the number of nodes at the current level
+            int n = treeNodes.size();
+            
+            // Iterate over all nodes at the current level
+            for(int i = 0; i < n; i++){
+                // Get the current node without removing it from the queue
+                Node currNode = treeNodes.peek();
+                // Remove the current node from the queue
+                treeNodes.poll();
+                
+                // Set the next pointer of the current node
+                if( i == n-1){ // If it's the last node in this level
+                    currNode.next = null; // Set next pointer to null
+                }
+                else{
+                    currNode.next = treeNodes.peek(); // Set next pointer to the next node in the queue
+                }
+                
+                // Add the left child of the current node to the queue if it exists
+                if(currNode.left != null){
+                    treeNodes.add(currNode.left);
+                }
+                
+                // Add the right child of the current node to the queue if it exists
+                if(currNode.right != null){
+                    treeNodes.add(currNode.right);
+                }
+            }
+        }
+        // Return the modified root node
+        return root ;
+    }
+}
