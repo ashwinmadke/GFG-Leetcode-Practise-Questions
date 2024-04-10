@@ -1,6 +1,10 @@
 // https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
 // TC -> O(N)
-// SC -> O(N)
+// Auxilary SC -> O(N)
+
+The idea is to perform a level order traversal and for each node in a level set its next pointer to the next node in the same level.
+For the last node in a level, set its next pointer to NULL.
+
 
 class Solution {
     public Node connect(Node root) {
