@@ -1,0 +1,26 @@
+// https://leetcode.com/problems/minimum-depth-of-binary-tree/
+// TC -> O(N) for traversing each node
+// SC -> O(H), for recursion call stack
+
+Idea - by solving two sub problems, by finding minimum depth of left & right subtree. If we know the minimum depth of left & right subtree then minimum depth of entire tree will be 
+1 + (minmum depth of left subtree, minimum depth of right subtree).
+ 
+class Solution {
+    public int minDepth(TreeNode root) {
+        // base case
+        if(root == null) return 0;
+        
+        //if root.left ==  null then recursively call the same func for right subtree
+        // and calculate min depth
+        if(root.left == null) return 1 + minDepth(root.right);
+        
+        //if root.right ==  null then recursively call the same func for left subtree
+        // and calculate min depth
+        if(root.right == null) return 1 + minDepth(root.left);
+        
+        //if both left and right child not null then recursively call same func for left
+        // & right subtree , cal min depth & get minmum of both to cal min depth of 
+        //overall tree
+        return 1 + Math.min(minDepth(root.left) , minDepth(root.right));
+    }
+}
