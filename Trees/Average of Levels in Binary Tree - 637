@@ -1,0 +1,40 @@
+// https://leetcode.com/problems/average-of-levels-in-binary-tree/
+// TC -> O(N), n is no of nodes
+// SC -> O(N) , bcoz of queue
+
+
+Idea - do the level order traversal, count nodes at each level, do the sum of nodes value at each level , avg = sum/count
+class Solution {
+    public List<Double> averageOfLevels(TreeNode root) {
+        
+        List result = new ArrayList<>();
+        if(root == null){
+            return result;
+        }
+        
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        queue.offer(null);
+        
+        while(queue.peek() != null){
+            double sum = 0;
+            int nodeCount = 0;
+            
+            while(queue.peek() != null){
+                TreeNode head = queue.poll();
+                sum += head.val;
+                nodeCount++;
+                
+                if(head.left != null){
+                    queue.offer(head.left);
+                }
+                if(head.right != null){
+                    queue.offer(head.right);
+                }
+            }
+            queue.add(queue.poll());
+            result.add(sum/nodeCount);
+        }
+        return result;
+    }
+}
