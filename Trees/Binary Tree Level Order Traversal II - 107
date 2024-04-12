@@ -1,0 +1,51 @@
+// https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
+// TC -> O(N)
+// SC -> O(N)
+
+Idea - do level order traversal as usual and add nodes at 0th index to reverse order
+
+class Solution {
+    
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        // result list
+        List result = new ArrayList<>();
+        
+        // If the root is null, return an empty result
+        if(root == null){
+            return result;
+        }
+        
+        // queue for level order traversal
+        Queue<TreeNode> queue = new LinkedList<>();
+        // Add the root node to the queue
+        queue.offer(root);
+        
+        // Iterate until the queue is empty
+        while (!queue.isEmpty()){
+            // list to store the values of nodes at the current level
+            ArrayList<Integer> level = new ArrayList<>();
+            // Get the number of nodes at the current level
+            int size = queue.size();
+            // Iterate through all nodes at the current level
+            for (int i = 0; i < size; i++){
+                // Remove the head node from the queue
+                TreeNode head = queue.poll();
+                // Add the value of the head node to the level list
+                level.add(head.val);
+                
+                // Add the left child of the head node to the queue if it exists
+                if(head.left != null){
+                    queue.offer(head.left);
+                }
+                // Add the right child of the head node to the queue if it exists
+                if(head.right != null){
+                    queue.offer(head.right);
+                }
+            }
+            // Add the current level list to the result at index 0 to reverse the order
+            result.add(0,level);
+        }
+        // Return result
+        return result;
+    }
+}
