@@ -1,0 +1,74 @@
+// https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/
+// TC -> O(N) , O(N) 
+// SC -> O() , for hashmap to hold parent nodes
+
+Approach - DFS
+
+class Solution {
+    
+    // list to store the final result
+    List<Integer> result = new ArrayList<>();
+    
+    // Map to store the parent of each node
+    HashMap<TreeNode, TreeNode> childParentMap = new HashMap<>();
+    
+    // Set to keep track of visited nodes
+    Set<TreeNode> visited = new HashSet<>();
+    
+    // Method to find nodes at distance k from the target node
+    public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
+        
+        // Populate the parent map
+        getParent(root);
+        
+        // Find nodes at distance k from the target
+        getNodes(target, k);
+        
+        // Return the final result
+        return result;
+    }
+    
+    // Method to populate the parent map
+    private void getParent(TreeNode node){
+        // If node is null, return
+        if(node == null){
+            return;
+        }
+        
+        // If the left child of the node is not null, add it to the parent map and recurse
+        if(node.left != null){
+            childParentMap.put(node.left, node);
+            getParent(node.left);
+        }
+        
+        // If the right child of the node is not null, add it to the parent map and recurse
+        if(node.right != null){
+            childParentMap.put(node.right,node);
+            getParent(node.right);
+        }
+    }
+    
+    // Method to find nodes at distance k from the target
+    private void getNodes(TreeNode node, int k){
+        // If node is null or has been visited before, return
+        if(node == null || visited.contains(node)){
+            return;
+        }
+        
+        // Mark the current node as visited
+        visited.add(node);
+        
+        // If k is 0, add the current node's value to the result list
+        if(k==0){
+            result.add(node.val);
+            return;
+        }
+        
+        // Recursively explore left and right subtrees with distance k-1
+        getNodes(node.left, k-1);
+        getNodes(node.right, k-1);
+        
+        // Explore the parent node with distance k-1
+        getNodes(childParentMap.get(node), k-1);
+    }
+}
