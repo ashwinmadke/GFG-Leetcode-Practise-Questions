@@ -1,0 +1,48 @@
+// https://leetcode.com/problems/clone-graph/
+// TC - > O(V + E)
+// SC -> O(V)
+
+BFS Solution :
+
+public Node cloneGraph(Node node) {
+    // if original graph is empty return null
+    if(node == null)
+        return null;
+
+    // Create a HashMap to store the mapping of original nodes to cloned nodes
+    HashMap<Node , Node> map = new HashMap<>();
+    
+    // Create a queue for BFS traversal
+    Queue<Node> queue = new LinkedList<>();
+
+    // Add the first node of the original graph to the queue
+    queue.add(node);
+    
+    // Create a cloned node for the first node and put it in the map
+    map.put(node, new Node(node.val, new ArrayList<>()));
+
+    // Start BFS traversal
+    while (!queue.isEmpty()) {
+        // Remove a node from the queue
+        Node removeFromQueue = queue.poll();
+
+        // Iterate through the neighbors of the current node
+        for (Node neighbor : removeFromQueue.neighbors) {
+
+            // If the neighbor has not been visited/cloned yet
+            if (!map.containsKey(neighbor)) {
+
+                // Create a cloned node for the neighbor and put it in the map
+                map.put(neighbor, new Node(neighbor.val, new ArrayList<>()));
+
+                // Add the neighbor to the queue for further traversal
+                queue.add(neighbor);
+            }
+            // Add the cloned neighbor to the list of neighbors of the cloned current node
+            map.get(removeFromQueue).neighbors.add(map.get(neighbor));
+        }
+    }
+
+    // Return the cloned node corresponding to the input node
+    return map.get(node);
+}
