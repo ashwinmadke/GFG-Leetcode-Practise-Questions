@@ -1,0 +1,60 @@
+// https://leetcode.com/problems/surrounded-regions/
+// Time Complexity: O(m*n)
+// Space Complexity: O(m*n) , bcoz of recursive stack space in flood fill can reach O(m*n) in worst case.
+
+Approach - DFS 
+
+public class SurroundedRegions {
+    private boolean isSafe(int row, int col, int m, int n){
+        return (row >= 0 && row < m && col >= 0 && col < n);
+    }
+    private void floodFill(int row, int col, int m, int n,char[][] board ){
+        board[row][col] = 'V'; // mark it as visited
+
+        // go through 4 neighbors
+        // Possible directions: right, left, down, up
+        int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        for(int k = 0; k < 4; k++){
+            int newRow = row + directions[k][0];
+            int newCol = col + directions[k][1];
+
+            // boundary check for newR & newC
+            if(isSafe(newRow,newCol,m,n) && board[newRow][newCol] == 'O'){
+                floodFill(newRow,newCol,m,n,board);
+            }
+        }
+
+    }
+    public void solve(char[][] board) {
+        //get no of rows & columns
+        int m = board.length;
+        int n = board[0].length;
+
+        // step 1 - pickup all boundary O(Oh) and connected O(Oh) & mark it as diff character 'V'
+        for(int j =0 ; j < n; j++){ // col will be changing
+                                        // 0 - row, j - col
+            if(board[0][j] == 'O') floodFill(0,j,m,n,board); // done with 0th row
+            if(board[m-1][j] == 'O') floodFill(m-1,j,m,n,board); // done with last row
+        }
+
+        // need to deal with both columns
+        for(int i = 0; i < m; i++){ // row will be changing
+            if(board[i][0] == 'O') floodFill(i,0,m,n,board); // oth col
+            if(board[i][n-1] == 'O') floodFill(i,n-1,m,n,board); // last col
+        }
+
+        // step 2-  traverse over matrix ,find leftover Os - and flip them to X
+        for(int i=0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(board[i][j] == 'O') board[i][j] = 'X';
+            }
+        }
+
+        // step 3- whichever marked as V now flip it back to O
+        for(int i=0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(board[i][j] == 'V') board[i][j] = 'O';
+            }
+        }
+    }
+}
