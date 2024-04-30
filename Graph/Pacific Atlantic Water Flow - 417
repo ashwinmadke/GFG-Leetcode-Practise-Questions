@@ -1,0 +1,76 @@
+// https://leetcode.com/problems/pacific-atlantic-water-flow/
+// Time Complexity: O(m*n)
+// Space Complexity: O(m*n) 
+
+Approach - DFS
+
+class Solution {
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        
+        //result list will store coordinates of cells that can flow to both oceans
+        List<List<Integer>> result =  new ArrayList<>();
+        
+        //check if input matrix is empty
+        if(heights == null || heights.length == 0 || heights[0].length == 0) return result;
+        
+        //get num of rows & cols in the matrix
+        int m =  heights.length;
+        int n = heights[0].length;
+        
+        // boolean arrays to mark cells that can reach the pacific and atlantic oceans
+        boolean[][] canReachPacific = new boolean[m][n];
+        boolean[][] canReachAtlantic = new boolean[m][n];
+        
+        // Perform Depth-First Search (DFS) from borders to mark cells that can reach the Pacific Ocean
+        // and the Atlantic Ocean
+        // Iterate over each row to check the left and right borders
+        for(int i=0; i < m; i++){
+            dfs(heights,canReachPacific, i,0); // check left border
+            dfs(heights, canReachAtlantic, i, n-1); //  check right border
+        }
+        
+        // Iterate over each column to check the top and bottom borders
+        for(int j=0 ; j < n; j++){
+            dfs(heights,canReachPacific, 0,j); // check top border
+            dfs(heights,canReachAtlantic,m-1,j); // check bottom border
+        }
+        
+        // Check cells reachable by both oceans
+        // Iterate over each cell in the matrix
+        for(int i=0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                // If a cell can reach both oceans, add its coordinates to the result list
+                if(canReachPacific[i][j] && canReachAtlantic[i][j]){
+                    List<Integer> coordinates = new ArrayList<>();
+                    coordinates.add(i);
+                    coordinates.add(j);
+                    result.add(coordinates);
+                }
+            }
+        }
+        return result; // list of coordinates of cells that can flow to both oceans
+        
+            }
+    // DFS to mark cells that can be recahed from the given cells
+        private void dfs(int heights[][], boolean[][] canReachOcean, int i, int j){
+            int m = heights.length;
+            int n = heights[0].length;
+            
+            //mark current cell as reachable
+            canReachOcean[i][j] = true;
+            
+            // Possible directions: up,  down, right,  left
+            int[][] directions = {{-1,0},{1,0},{0,1},{0,-1}};
+            for(int[] dir : directions){
+                int x = i + dir[0];
+                int y = j + dir[1];
+                
+                // Check if the neighboring cell is within the bounds and can be reached from the current cell
+                if (x >= 0 && x < m && y >= 0 && y < n && !canReachOcean[x][y] && heights[x][y] >= heights[i][j]) {
+                // Recursively explore the neighboring cell
+                dfs(heights, canReachOcean, x, y);
+            }
+        }
+        
+    }
+}
