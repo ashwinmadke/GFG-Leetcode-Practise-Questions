@@ -1,0 +1,31 @@
+// https://leetcode.com/problems/house-robber/
+// TC-> O(N)
+// SC-> O(1)
+
+Thought Process :
+If there are no houses or only one house, return 0 or the value of that single house accordingly.
+Initialize prevMax and currMax to the maximum money obtainable from the first house (nums[0]).
+Apply dynamic programming by iterating from the second house to the last.
+Update currMax to represent the maximum money with the current house by comparing the sum of prevMax and the current house's value with currMax.
+Update prevMax with the previous value of currMax.
+Return currMax as the final result.
+
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+
+        if(n==0) return 0;
+        if(n==1) return nums[0];
+        
+
+        int prevMax = 0;
+        int currMax = nums[0];
+
+        for(int i=1; i<n; i++){
+            int temp = currMax;
+            currMax = Math.max(prevMax + nums[i],currMax);
+            prevMax = temp;
+        }
+        return currMax;
+    }
+}
