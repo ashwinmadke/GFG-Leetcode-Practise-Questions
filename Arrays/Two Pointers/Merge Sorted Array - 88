@@ -1,0 +1,15 @@
+// https://leetcode.com/problems/merge-sorted-array/
+
+Brute Force - 
+// TC-> O((m+n)log(m+n)) or O(Klogk) where k is m+n
+// SC-> O(1)
+
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        //copy the elements of nums2 to the end of nums1 and sort nums1
+        for(int i =0; i<n; i++){
+            nums1[m+i] = nums2[i];
+        }
+        Arrays.sort(nums1);
+    }
+}
