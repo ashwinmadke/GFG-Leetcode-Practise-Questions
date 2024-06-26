@@ -1,0 +1,21 @@
+// https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/
+// TC-> O(N)
+// SC-> O(1)
+
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        if(nums.length < 3){ //if lengt is less than 3 retur same length
+            return nums.length;
+        }
+        // use two pointers
+        int i = 2;
+        for(int j = 2; j < nums.length; j++){
+            // If the current element is different from the element two positions back, it can be placed.
+            if(nums[j] != nums[i-2]){
+                nums[i] = nums[j];
+                i++;
+            }
+        }
+        return i;
+    }
+}
