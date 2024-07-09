@@ -36,3 +36,42 @@
         }
         return totalStoredWater;
     }
+
+
+//better approach
+    // tc - O(n) , sc - O(n)
+    // 1. Use two arrays to store the maximum heights to the left  and right of each bar
+    // 2. Iterate over the height array to fill these two arrays
+    // 3. use these arrays to calculate the trapped water at each bar and sum it up
+    public int betterApproachTrappingRain(int[] height){
+        int n = height.length;
+        // Initialize two arrays to store the maximum heights to the left and right of each bar
+        int[] leftMax = new int[n];
+        int[] rightMax = new int[n];
+
+        leftMax[0] = 0; // initialize 0th index as 0
+        // Fill the leftMax array
+        for (int i=1; i<n;i++){
+            leftMax[i] = Math.max(leftMax[i-1],height[i-1]);// leftMax[i] is the maximum height to the left of index i
+        }
+
+        rightMax[n-1] = 0; // initialize last index as 0
+        // Fill the rightMax array
+        for (int j = n-2; j>=0; j--){
+            rightMax[j] = Math.max(rightMax[j+1],height[j+1]); // rightMax[j] is the maximum height to the right of index j
+        }
+
+        int water = 0;
+        // Calculate the trapped water for each bar
+        for(int i=0; i<n; i++){
+            // The minimum height between leftMax and rightMax at index i determines the water level
+            int minHeight = Math.min(leftMax[i],rightMax[i]);
+
+            // If the water level is higher than the height of the current bar
+            if(minHeight - height[i] >= 0){
+                // Add the trapped water at index i to the total water
+                water += minHeight - height[i];
+            }
+        }
+        return water;
+    }
