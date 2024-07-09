@@ -1,0 +1,38 @@
+// https://leetcode.com/problems/trapping-rain-water/
+//Brute Force - 
+//tc - O(n^2)
+//sc - O(1)
+    // 1. Iterate through each element of array & calculate maxHeight to left of current index i
+    // 2. calculate maxHeight to right of current index i
+    // 3. storedWater = min of (leftmax , rightmax) - height[i] if its positive, otherwise 0
+    // 4. sum up the stored water for all indices to get the total storedWater.
+
+    public int trap(int[] height) {
+        int n = height.length;
+        int totalStoredWater = 0;
+
+        //iterate through each index of height array
+        for(int i=0; i<n; i++){
+            int leftMax = 0;
+            int rightMax = 0;
+
+            //get maxHeight to left of current index
+            for(int j=0; j<= i; j++){
+                leftMax = Math.max(leftMax,height[j]); // update leftMax
+            }
+
+            //get maxHeight to right of current index
+            for(int k=i; k<n; k++){
+                rightMax = Math.max(rightMax,height[k]); // update rightMax
+            }
+
+            // Calculate the stored water at the current bar
+            int storedWaterAtI  = Math.min(leftMax,rightMax) - height[i];
+
+            // If storedWaterAtI is positive, add it to totalStoredWater
+            if(storedWaterAtI > 0){
+                totalStoredWater += storedWaterAtI;
+            }
+        }
+        return totalStoredWater;
+    }
