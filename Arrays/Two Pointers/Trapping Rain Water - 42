@@ -75,3 +75,52 @@
         }
         return water;
     }
+
+
+//Optimal approach
+    // Two Pointers approach
+    // 1. Sabse pehle findout karlo ki maximum height wali building konsi hai
+    // 2. and then left max ke left side me start se traverse karte hue calculate karlo and check karlo kitna pani store hua hai ,agar negative hai to store nhi karo
+    // 3. or fir same right side se check kralo max building tk ki kitna pani store hua hai, agar negative hai to store nhi karo
+    // 4. last me total water return kardo
+    public int twoPointerApproach(int[] height){
+        int n = height.length;
+
+        int leftMax = 0; // will store max height encountered in left side
+        int rightMax = 0; // will store max height encountered in right side
+        int water = 0;
+        int index = 0; // Index of the maximum height
+        int maxHeight = height[0]; // Initially we will be considering the maximum height as the first element
+
+        // maximum height wali building konsi hai vo find karlo or uska index
+        for(int i = 1; i<n; i++){
+            if(height[i] > maxHeight){
+                maxHeight = height[i];
+                index = i;
+            }
+        }
+
+        //left side me kitna pani store hua hai vo calculate karlo
+        for (int i=0; i<index; i++){
+            if(leftMax > height[i]){
+                water += leftMax - height[i]; // leftmax - currheight[i] ko water me store karva do
+            }
+            else {
+                leftMax = height[i];// leftMax ko current height se update kardo
+            }
+        }
+
+        //right side me kitna pani store hua hai vo calculate karlo
+        for(int i = n-1; i > index ; i--){
+            if(rightMax > height[i]){
+                water += rightMax - height[i];// Water trapped between rightMax and current height
+            }
+            else {
+                rightMax = height[i];// rightMax ko current height se update kardo
+            }
+        }
+
+        return water;
+
+    }
+
