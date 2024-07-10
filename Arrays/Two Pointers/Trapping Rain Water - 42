@@ -80,12 +80,11 @@
 //Optimal approach
 //tc - O(n)
 //sc - O(1)
-    // Two Pointers approach
     // 1. Sabse pehle findout karlo ki maximum height wali building konsi hai
     // 2. and then left max ke left side me start se traverse karte hue calculate karlo and check karlo kitna pani store hua hai ,agar negative hai to store nhi karo
     // 3. or fir same right side se check kralo max building tk ki kitna pani store hua hai, agar negative hai to store nhi karo
     // 4. last me total water return kardo
-    public int twoPointerApproach(int[] height){
+    public int optimalApproach(int[] height){
         int n = height.length;
 
         int leftMax = 0; // will store max height encountered in left side
@@ -125,4 +124,3 @@
         return water;
 
     }
-
