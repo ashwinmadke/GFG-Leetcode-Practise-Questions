@@ -78,6 +78,8 @@
 
 
 //Optimal approach
+//tc - O(n)
+//sc - O(1)
     // Two Pointers approach
     // 1. Sabse pehle findout karlo ki maximum height wali building konsi hai
     // 2. and then left max ke left side me start se traverse karte hue calculate karlo and check karlo kitna pani store hua hai ,agar negative hai to store nhi karo
