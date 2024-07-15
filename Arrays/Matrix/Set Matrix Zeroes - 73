@@ -1,0 +1,47 @@
+// https://leetcode.com/problems/set-matrix-zeroes/
+
+//brute force approach
+    // 1. create matrix2 of same size or original and copy all elements to matrix2
+    // 2. start traversing over original matrix whenever encounter 0 mark entire row and colum as 0 in matrix2
+    // 3. now copy elements of matrix2 to original matrix
+    // tc - O(m*n) * (m+n)
+    // sc - O(m*n)
+    public void setZeroes(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        int [][] matrix2 = new int[m][n];
+
+        //copy elements to matrix 2 from original matrix
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                matrix2[i][j] = matrix[i][j];
+            }
+        }
+
+        //now iterate over original matrix and if 0 encounter mark entire row and column as 0 in matrix2
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+
+                if(matrix[i][j] == 0){
+                    // mark all elements in the corresponding row to zero in matrix2
+                    for(int k=0; k<n; k++){
+                        matrix2[i][k] = 0;
+                    }
+
+                    // mark all elements in the corresponding column to zero in matrix2
+                    for(int k=0; k<m; k++){
+                        matrix2[k][j] = 0;
+                    }
+                }
+            }
+        }
+
+        //now copy all elements to original matrix
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                matrix[i][j] = matrix2[i][j];
+            }
+        }
+
+    }
