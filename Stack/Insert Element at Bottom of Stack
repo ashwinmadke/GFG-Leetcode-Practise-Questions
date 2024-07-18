@@ -1,0 +1,23 @@
+// https://www.geeksforgeeks.org/problems/insert-an-element-at-the-bottom-of-a-stack/1?page=2&category=Stack&difficulty=Easy&sortBy=submissions
+// tc - O(n)
+// sc - O(n)
+
+public Stack<Integer> insertAtBottom(Stack<Integer> st, int x) {
+        Stack<Integer> temp = new Stack<>(); // Create a temporary stack to hold elements
+
+        // While the original stack is not empty, transfer elements to the temporary stack
+        while (!st.isEmpty()){
+            temp.push(st.peek()); // Push the top element of the original stack to the temporary stack
+            st.pop(); // Remove the top element from the original stack
+        }
+
+        st.push(x); // As the original stack is now empty, push x into the original stack
+
+        // While the temporary stack is not empty, transfer elements back to the original stack
+        while (!temp.isEmpty()){
+            st.push(temp.peek()); // Push the top element of the temporary stack back to the original stack
+            temp.pop(); // Remove the top element from the temporary stack
+        }
+
+        return st; // Return the modified original stack
+}
