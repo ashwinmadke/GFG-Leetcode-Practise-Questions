@@ -1,0 +1,22 @@
+// https://leetcode.com/problems/reverse-string/
+//tc - O(n)
+//sc - O(n)
+
+public void reverseString(char[] s) {
+        // Create a stack to hold characters
+        Stack<Character> st = new Stack<>();
+
+        // Traverse over the char array and push each character onto the stack
+        for(int i = 0; i < s.length; i++) {
+            st.push(s[i]);
+        }
+        // Initialize index to 0 for replacing characters in the original array
+        int i = 0;
+
+        // Pop characters from the stack and place them back into the array
+        while (!st.isEmpty()) {
+            s[i] = st.peek();  // Get the top character from the stack
+            st.pop(); // Remove the top character from the stack
+            i++; // Move to the next index in the array
+        }
+}
