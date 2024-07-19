@@ -1,0 +1,40 @@
+// https://www.geeksforgeeks.org/problems/make-the-array-beautiful--170647/1
+// tc - O(n^2)
+// sc - O(n)
+
+ public static ArrayList<Integer> makeBeautiful(int[] arr) {
+
+        Stack<Integer> st = new Stack<>(); // will help in processing the array elements
+        // Iterate through each element in the array
+        for(int i =0; i< arr.length; i++){
+            // If the stack is empty, push the current element onto the stack
+            if(st.isEmpty()){
+                st.push(arr[i]);
+            }
+            else if(arr[i] >= 0){ // If the current element is non-negative
+                if(st.peek() >= 0){ // If the top element of the stack is also non-negative, push the current element onto the stack
+                    st.push(arr[i]);
+                }
+                else { // If the top element of the stack is negative, pop the stack
+                    st.pop();
+                }
+            }
+            else { // If the current element is negative
+                // If the top element of the stack is also negative, push the current element onto the stack
+                if(st.peek() < 0){
+                    st.push(arr[i]);
+                }
+                else { // If the top element of the stack is non-negative, pop the stack
+                    st.pop();
+                }
+            }
+        }
+
+        //ArrayList to store the resulting elements
+        ArrayList<Integer> ans = new ArrayList<>(st.size());
+        // Transfer elements from the stack to the ArrayList in reverse order
+        while (!st.isEmpty()){
+            ans.add(0, st.pop()); // Add the top element of the stack to the beginning of the ArrayList
+        }
+        return ans;
+    }
