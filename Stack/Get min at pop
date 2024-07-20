@@ -1,0 +1,34 @@
+// https://www.geeksforgeeks.org/problems/get-min-at-pop/1?page=1&category=Stack&difficulty=Easy&sortBy=submissions
+// tc - O(n)
+// sc - O(n)
+
+/* Approach -
+we iterate through the array and push elements onto the stack. For each element, we compare it with the top element of the stack and push the minimum of the two to maintain the minimum value at each stack level.
+In _getMinAtPop, we simply pop elements from the stack one by one, printing the minimum value (which is at the top of the stack) until the stack is empty.
+*/
+
+
+//Function to push all the elements into the stack.
+    public static Stack<Integer> _push(int arr[],int n)
+    {
+        Stack<Integer> st = new Stack<>();
+        for(int i=0; i<n; i++){
+           if(i == 0){
+               st.push(arr[i]);
+           }
+           else {
+               st.push(Math.min(arr[i],st.peek() ));
+           }
+        }
+        return st;
+    }
+
+    //Function to print minimum value in stack each time while popping.
+    static void _getMinAtPop(Stack<Integer>s)
+    {
+        while (!s.isEmpty()){
+            System.out.print(s.pop() + " ");
+        }
+
+    }
+
