@@ -1,0 +1,37 @@
+// https://www.geeksforgeeks.org/problems/print-bracket-number4058/1?itm_source=geeksforgeeks&itm_medium=article&itm_campaign=practice_card
+// tc - O(n)
+// sc - O(n)
+
+/*approach -
+The approach to solve the problem using a stack and a counter.
+We traverse the given string character by character. When we encounter an opening bracket '(', we increment a counter and push this counter value onto the stack, then add this value to the result list.
+When we encounter a closing bracket ')', we add the top value from the stack to the result list and then pop the stack.
+This ensures that each pair of matching brackets gets the same number, which helps in identifying and pairing them correctly.
+Finally, we return the result list containing the bracket numbers.
+*/
+
+public class PrintBracketNumber {
+    ArrayList<Integer> bracketNumbers(String str) {
+        //stack to keep track of the bracket numbers
+        Stack<Integer> st = new Stack<>();
+        //ArrayList to store the result
+        ArrayList<Integer> ans = new ArrayList<>();
+        int count = 0; // counter to assign numbers to brackets
+
+        //traverse over string
+        for(int i=0; i<str.length(); i++){
+            //if curr character is opening bracket
+            if(str.charAt(i)== '('){
+               count++; //increment count
+               st.push(count);//push curr count into stack
+               ans.add(count);// and store curr count in result list
+            }
+            // if curr character is closing bracket
+            else  if (str.charAt(i)== ')'){
+                ans.add(st.peek()); // add top value of stack to result list
+                st.pop(); // pop top value of stack
+            }
+        }
+        return ans; // return list
+}
+
