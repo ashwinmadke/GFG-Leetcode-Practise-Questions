@@ -1,0 +1,40 @@
+// https://leetcode.com/problems/backspace-string-compare/
+// tc - O(m+n)
+// sc - O(m+n)
+
+/* Approach -
+    we can use a stack. Iterate through each character of the string, puch into stack if it's not #.
+    If a # is encountered, pop the stack if it's not empty.
+    After processing both strings, convert the stacks back to strings and compare them.
+    If the resulting strings are equal, return true; otherwise, return false.
+*/
+
+    public boolean backspaceCompare(String s, String t) {
+        //compare both of the processed strings
+        return processString(s).equals(processString(t));
+    }
+
+    private static String processString(String str){
+        Stack<Character> st = new Stack<>();
+        // Iterate over each character in the string
+        for(char ch : str.toCharArray()){
+            if(ch != '#'){ // If the character is not a backspace, push it onto the stack
+                st.push(ch);
+            }
+            // If the character is a backspace and the stack is not empty, pop the top character
+            else if (!st.isEmpty()){
+                st.pop();
+            }
+        }
+        return stackToString(st); // Convert the stack to a string and return it
+    }
+
+    private static String stackToString(Stack<Character> st){
+        //StringBuilder to build the resulting string
+        StringBuilder result = new StringBuilder();
+        // Append each character in the stack to the StringBuilder
+        for(char c : st){
+            result.append(c);
+        }
+        return result.toString();// Convert StringBuilder to string and return it
+    }
