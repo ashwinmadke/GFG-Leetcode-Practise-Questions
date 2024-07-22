@@ -1,0 +1,25 @@
+// https://www.geeksforgeeks.org/problems/next-larger-element-1587115620/1?itm_source=geeksforgeeks&itm_medium=article&itm_campaign=practice_card
+
+/* Bruteforce -
+// tc - O(n^2), sc - O(1), auxilary
+    1. take array of n size & fill it with -1 that indicate no larger element by default.
+    2. use two nested loop , outer loop will iterate over each element, while inner loop checks subsequent elements to find larger element(immediate).
+    3. if larger element found store it in ans array and break inner loop to move to the next element in outer loop.
+    4. repeat step 2 & 3 untill processing over all array elements.
+    5. atlast we have ans array containing next larger element or -1 where no such element exists.
+*/
+
+    public static long[] nextLargerElement(long[] arr, int n) {
+        long[] ans = new long[n];
+        Arrays.fill(ans,-1);
+
+        for(int i=0; i<n; i++){
+            for(int j= i+1; j<n; j++){
+                if(arr[j] > arr[i]){
+                    ans[i] = arr[j];
+                    break;
+                }
+            }
+        }
+        return ans;
+    }
