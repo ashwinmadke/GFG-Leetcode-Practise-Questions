@@ -1,0 +1,67 @@
+// https://leetcode.com/problems/binary-tree-postorder-traversal/
+
+Approach 1 - Using 2 Stack
+/*
+1. initialize two stacks (st1 and st2) and an empty list (postorderList) for storing the traversal result.
+2. If the root is null, return the empty result list. 
+3. Push the root node onto st1. Then, while st1 is not empty, pop a node from st1, push it onto st2, and push its left and right child onto st1 if they exist.
+4. After processing all nodes in this manner, st2 will contain nodes in reverse postorder. 
+5. Finally, pop all nodes from st2 and add their values to postorderList, which now contains the postorder traversal of the binary tree. 
+*/
+
+public List<Integer> postorderTraversal(TreeNode root) {
+        //using 2 stack
+        Stack<TreeNode> st1 = new Stack<>();
+        Stack<TreeNode> st2 = new Stack<>();
+        List<Integer> postorderList = new ArrayList<>();
+
+        if(root == null) return postorderList;
+
+        st1.push(root);
+        while (!st1.isEmpty()){
+            root = st1.pop();
+            st2.add(root);
+
+            if(root.left != null){
+                st1.push(root.left);
+            }
+
+            if(root.right != null){
+                st1.push(root.right);
+            }
+        }
+
+        while (!st2.isEmpty()){
+            postorderList.add(st2.pop().val);
+        }
+        return postorderList;
+    }
+
+//Approach 2 - Using single Stack
+// TC - O(n), SC - O(n)
+/*
+1. Initialize a stack and result list, stack to store the nodes & result list to store the postorder traversal.
+2. Now push the root node onto the stack.Then, while the stack is not empty, pop a node from the stack, insert its value at the front of the result list, and push its left and right child onto the stack if they exist.
+3. Once the stack is empty, the result will contain the postorder traversal of the tree.
+*/
+
+
+ public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new LinkedList<>(); //linked list for efficient insertion at front
+        if(root == null) return result;
+
+        Stack<TreeNode> stack = new Stack<>(); // Stack to keep track of nodes
+        stack.push(root);// Push the root node onto the stack
+
+        while (!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            result.add(0,node.val);// Insert the node's value at the front of the result list
+            
+            if(node.left != null) // Push the left child to the stack if it exists
+                stack.push(node.left);
+            
+            if(node.right != null) // Push the right child to the stack if it exists
+                stack.push(node.right);
+        }
+        return result;
+    }
