@@ -1,0 +1,18 @@
+// https://leetcode.com/problems/merge-two-binary-trees/
+// TC - O(n)
+// SC - O(h) , h height of tree , O(n) in worst case if tree is skewed tree.
+
+// Approach - DFS
+public TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+        if(root1 == null && root2 == null) return null; // yadi dono trees ki nodes null hui to kuch merge karne layak nhi, simply return null
+
+        if(root1 == null) return root2;// yadi root1 null hai to non-null (root 2)ko return kardo
+        if(root2 == null) return root1;// yadi root2 null hai to non-null (root 1)ko return kardo
+
+        // otherwise dono ek new node create karo dono nodes k root k sum ke equal, and recursively left side and right side of subtrees ko bhi karte jao
+        TreeNode mergeNode = new TreeNode(root1.value + root2.value);
+        mergeNode.left = mergeTrees(root1.left,root2.left);
+        mergeNode.right = mergeTrees(root1.right, root2.right);
+
+        return mergeNode;
+    }
