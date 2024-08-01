@@ -1,24 +1,17 @@
 // https://leetcode.com/problems/maximum-depth-of-binary-tree/
 // TC -> O(N) for traversing each node
-// SC -> O(H), for recursion call stack
+// SC -> O(H), for recursion call stack, in worst case when its Skew tree it will be O(n)
 
-Idea - by solving two sub problems, by finding maximum depth of left & right subtree. If we know the maximum depth of left & right subtree then maximum depth of entire tree will be 
-1 + (maximum depth of left subtree, maximum depth of right subtree).
+Approach - using recurrence - 1 + max(leftHeight,rightHeight) 
+// from root node get height of left subtree , get height of right subtree and in the end add root node as well. (recursively)
 
 class Solution {
-    public int maxDepth(TreeNode root) {
-        if(root == null){
-            return 0;
-        }
+   public int maxDepth(TreeNode root) {
+        if(root == null) return 0; // base case , agr root he null hai to height hogi he nhi
+
+        int leftHeight = maxDepth(root.left);
+        int rightHeight = maxDepth(root.right);
         
-        if(root.left == null){
-            return 1 + maxDepth(root.right);
-        }
-        
-        if(root.right == null){
-            return 1 + maxDepth(root.left);
-        }
-        
-        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+        return 1 + Math.max(leftHeight,rightHeight);
     }
 }
