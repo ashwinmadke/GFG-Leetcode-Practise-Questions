@@ -1,0 +1,18 @@
+// https://www.geeksforgeeks.org/problems/mirror-tree/1?page=1&difficulty%5B%5D=0&category%5B%5D=Tree&sortBy=submissions
+// TC - O(n)
+// SC - O(h)max depth of recursion stack. O(n) in worst case if tree is unbalanced. O(log n ) in case of completely balanced tree.
+
+Approach - sabse pehle root node ke left & right part ko swap krdo(left ko right se , right ko left se) and then same subtree's ke sath kardo left & right side me recursively/
+// Function to convert a binary tree into its mirror tree.
+    void mirror(Node node) {
+        //base case
+        if(node == null) return;
+        
+        Node temp = node.left;
+        node.left = node.right;
+        node.right = temp;
+
+        // make recursively call for left & right child
+        mirror(node.left); 
+        mirror(node.right);
+    }
