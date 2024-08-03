@@ -1,0 +1,61 @@
+// https://www.geeksforgeeks.org/problems/level-order-traversal-in-spiral-form/1?page=1&difficulty%5B%5D=0&category%5B%5D=Tree&sortBy=submissions
+// TC - O(n)
+// SC - O(n)
+
+/*
+Approach - Using Stack
+1. Take two stacks S1 & S2, where S1 is for R to L traversal and S2 for L to R traversal.
+2. Initialize S1 with root node. 
+3. Now loop until both the stack becomes empty in the end we need to process all childrens of root.
+    a. Right-to-Left: If s1 is not empty, pop nodes from s1, add their values to the result list, push their right child first, then left child to s2.
+    b. Left-to-Right: If s2 is not empty, pop nodes from s2, add their values to the result list, push their left child first, then right child to s1.
+4. Continue until both stacks are empty.
+*/
+
+ArrayList<Integer> findSpiral(Node root)
+    {
+        Stack<Node> s1 = new Stack<>(); // R to L traversal
+        Stack<Node> s2 = new Stack<>(); // L to R traversal
+        s1.push(root);  // Push the root node into s1 to start the traversal
+
+        ArrayList<Integer> ans = new ArrayList<>(); // List to store the result
+        
+        // Continue until both stacks are empty
+        while (!s1.isEmpty() || !s2.isEmpty()){
+            // R to L traversal condition
+            if(!s1.isEmpty()) 
+            {
+                //untill my s1 becomes empty
+                while (!s1.isEmpty()){
+                    //pop node from s1 and add its value to ans list
+                    Node temp = s1.pop();
+                    ans.add(temp.data);
+                    // right child pushed first
+                    if(temp.right != null)
+                        s2.push(temp.right);
+
+                    // left child pushed second
+                    if(temp.left != null)
+                        s2.push(temp.left);
+                }
+            }
+
+            // L to R traversal condition
+            else {
+                // untill my s2 becomes empty
+                while (!s2.isEmpty()){
+                    //pop node from s2 and add its value to ans list
+                    Node temp = s2.pop();
+                    ans.add(temp.data);
+                    // left child pushed first
+                    if(temp.left != null)
+                        s1.push(temp.left);
+
+                    // right child pushed second
+                    if(temp.right != null)
+                        s1.push(temp.right);
+                }
+            }
+        }
+        return ans;
+    }
