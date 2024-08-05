@@ -1,0 +1,60 @@
+// https://www.geeksforgeeks.org/problems/print-bst-elements-in-given-range/1?page=1&difficulty%5B%5D=0&category%5B%5D=Binary%2520Search%2520Tree&sortBy=submissions
+
+/*
+Approach - 
+1. Do the inorder traversal and store its result into list
+2. traverse over list and print elements in the range
+*/
+TC- O(n), 
+SC - O(n)
+
+	public static void inOrderTraversal(Node root,ArrayList<Integer> result ){
+        // base case
+        if(root == null) return;
+        
+        inOrderTraversal(root.left, result);
+        result.add(root.data);
+        inOrderTraversal(root.right,result);
+    }
+    //Function to return a list of BST elements in a given range.
+    public static ArrayList<Integer> printNearNodes(Node root, int low, int high){
+        ArrayList<Integer> result = new ArrayList<>();
+        inOrderTraversal(root,result);
+        
+        ArrayList<Integer>rangeResult = new ArrayList<>();
+        for(int i : result){
+            if(i >= low && i<= high){
+                rangeResult.add(i);
+            }
+        }
+        return rangeResult;
+    }
+
+// Optimized Approach - add nodes directly to the result list during the in-order traversal if they fall within the specified range.
+TC - O(n)
+SC - O(h)
+
+public static void inOrderTraversal1(Node root, int low, int high,ArrayList<Integer> result){
+        //base case
+        if(root == null) return;
+
+        // Traverse the left subtree if the current node's value is greater than low
+        if(root.data > low){
+            inOrderTraversal1(root.left,low,high,result);
+        }
+        // Add the current node's value to the result if it's within the range
+        if(root.data >= low && root.data <= high){
+            result.add(root.data);
+        }
+
+        // Traverse the right subtree if the current node's value is less than high
+        if(root.data < high){
+            inOrderTraversal1(root.right,low,high,result);
+        }
+
+    }
+    public static ArrayList<Integer> printNearNodes(Node root, int low, int high){
+        ArrayList<Integer>result = new ArrayList<>();
+        inOrderTraversal1(root,low,high,result);
+        return result;
+    }
