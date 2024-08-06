@@ -1,0 +1,54 @@
+// https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
+Approach - 
+1. Find mid of the linked list, mid will be root of tree.
+2. Recursively build the left subtree (use left half of linked list).
+3. Recursively build the right subtree (use right half of linked list).
+
+TC - O(nlogn)
+SC - O(log n) , bcoz of depth of recursive tree.
+
+ // Helper function to find the middle of the linked list
+    public ListNode findMiddle(ListNode head) {
+        // Initialize slow and fast pointers
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode prev = null;
+        
+        while (fast != null && fast.next != null) {
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        // Disconnect the left half from the middle
+        if (prev != null) {
+            prev.next = null;
+        }
+        
+        return slow;
+    }
+
+    // Recursive function to convert sorted linked list to balanced BST
+    public TreeNode sortedListToBST(ListNode head) {
+        // Base case: if head is null, return null
+        if (head == null) {
+            return null;
+        }
+        
+        // Find the middle of the linked list
+        ListNode mid = findMiddle(head);
+        
+        // The middle element becomes the root
+        TreeNode node = new TreeNode(mid.val);
+        
+        // Base case when there is just one element in the linked list
+        if (head == mid) {
+            return node;
+        }
+        
+        // Recursively construct the left subtree and right subtree
+        node.left = sortedListToBST(head);
+        node.right = sortedListToBST(mid.next);
+        
+        return node;
+    }
