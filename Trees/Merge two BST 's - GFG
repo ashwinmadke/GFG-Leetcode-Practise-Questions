@@ -1,0 +1,61 @@
+// https://www.geeksforgeeks.org/problems/merge-two-bst-s/1
+
+Approach - 
+1. Apply inorder traversal on both trees and store its result in list1 and list 2.
+2. Now merge both lists and return ans.
+
+TC - O(n1 + n2)
+SC - O(n1 + n2)
+
+public void inorder(Node root, List<Integer> ans) {
+    // If the current node is null, return
+    if (root == null) return;
+    inorder(root.left, ans); // Traverse the left subtree
+    ans.add(root.value); // Add the value of the current node to the list
+    inorder(root.right, ans); // Traverse the right subtree
+}
+
+// Merge the elements of both trees into a sorted list
+public List<Integer> merge(Node root1, Node root2) {
+    // List to store elements of the first tree
+    ArrayList<Integer> list1 = new ArrayList<>();
+    // List to store elements of the second tree
+    ArrayList<Integer> list2 = new ArrayList<>();
+
+    // Perform inorder traversal on the first tree and store the elements in list1
+    inorder(root1, list1);
+    // Perform inorder traversal on the second tree and store the elements in list2
+    inorder(root2, list2);
+
+    // List to store the merged elements from list1 and list2
+    ArrayList<Integer> mergeList = new ArrayList<>();
+    // Pointers for traversing list1 and list2
+    int i = 0, j = 0;
+
+    // Merge the elements of list1 and list2 into mergeList
+    while (i < list1.size() && j < list2.size()) {
+        // If the current element in list1 is less than the current element in list2
+        if (list1.get(i) < list2.get(j)) {
+            // Add the element from list1 to mergeList and move the pointer i
+            mergeList.add(list1.get(i));
+            i++;
+        } else {
+            // Add the element from list2 to mergeList and move the pointer j
+            mergeList.add(list2.get(j));
+            j++;
+        }
+    }
+
+    // Add any remaining elements from list1 to mergeList
+    while (i < list1.size()) {
+        mergeList.add(list1.get(i));
+        i++;
+    }
+    // Add any remaining elements from list2 to mergeList
+    while (j < list2.size()) {
+        mergeList.add(list2.get(j));
+        j++;
+    }
+
+    return mergeList;
+}
