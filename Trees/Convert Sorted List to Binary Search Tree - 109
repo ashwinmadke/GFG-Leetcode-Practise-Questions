@@ -52,3 +52,45 @@ SC - O(log n) , bcoz of depth of recursive tree.
         
         return node;
     }
+
+
+// Optimized Approach -
+1. Convert the Linked List to an Array.
+2. Apply binary search on array to construct balance BST.
+   - Recursively build the left subtree with the subarray before the middle index.
+   - Recursively build the right subtree with the subarray after the middle index.
+
+TC - O(n)
+SC - O(n)
+
+// Function to build a BST from a sorted list
+    public TreeNode BuildBST(List<Integer> treelist, int start, int end) {
+        // Base case - if start index is greater than end index, return null
+        if (start > end) return null;
+
+        // Find the middle element to make it root
+        int mid = start + (end - start + 1) / 2;
+        // Create the root node with the middle element
+        TreeNode root = new TreeNode(treelist.get(mid));
+        // Recursively build the left subtree
+        root.left = BuildBST(treelist, start, mid - 1);
+        // Recursively build the right subtree
+        root.right = BuildBST(treelist, mid + 1, end);
+
+        // Return the root node of the subtree
+        return root;
+    }
+
+    // Function to convert a sorted linked list to a height-balanced BST
+    public TreeNode sortedListToBST(ListNode head) {
+        // Convert the linked list to an array
+        List<Integer> treelist = new ArrayList<>();
+        // Traverse the linked list and add each value to the array
+        while (head != null) {
+            treelist.add(head.val);
+            head = head.next;
+        }
+
+        // Build the BST from the sorted array and return the root
+        return BuildBST(treelist, 0, treelist.size() - 1);
+    }
