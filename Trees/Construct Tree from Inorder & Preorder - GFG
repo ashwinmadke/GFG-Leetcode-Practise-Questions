@@ -1,0 +1,37 @@
+// https://www.geeksforgeeks.org/problems/construct-tree-1/1
+// TC - O(n^2)
+// SC - O(n)
+
+// Function to find the index of a target value in the inorder array within a given range
+static int find(int in[], int target, int start, int end) {
+    for(int i = start; i <= end; i++) {
+        if(in[i] == target)  // if current element is the target
+            return i;        // Return the index if found
+    }
+    return -1; // if target is not found
+}
+
+// Recursive function to construct the binary tree from inorder and preorder arrays
+static Node Tree(int in[], int pre[], int InStart, int InEnd, int index) {
+    
+    // Base case: if the range is invalid, return null (no tree can be constructed)
+    if(InStart > InEnd) return null;
+
+    // Create a new node with the current root value from the preorder array
+    Node root = new Node(pre[index]);
+
+    // Find the position of the current root in the inorder array
+    int pos = find(in, pre[index], InStart, InEnd);
+
+    // Recursively build the left subtree
+    root.left = Tree(in, pre, InStart, pos - 1, index + 1);
+
+    // Recursively build the right subtree
+    root.right = Tree(in, pre, pos + 1, InEnd, index + (pos - InStart) + 1);
+
+    return root;
+}
+
+public static Node buildTree(int inorder[], int preorder[], int n) {
+    return Tree(inorder, preorder, 0, n - 1, 0);
+}
