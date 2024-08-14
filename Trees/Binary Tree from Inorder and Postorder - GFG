@@ -1,0 +1,41 @@
+// https://www.geeksforgeeks.org/problems/tree-from-postorder-and-inorder/1
+// TC - O(n^2)
+// SC - O(n)
+
+
+// Function to find the index of a target value in the array 'in' within the range 'start' to 'end'
+static int find(int in[], int target, int start, int end) {
+    // Loop through the range from 'start' to 'end'
+    for(int i = start; i <= end; i++) {
+        // If the current element matches the target, return the index
+        if(in[i] == target)
+            return i;
+    }
+    // If the target is not found, return -1
+    return -1;
+}
+
+// Recursive function to build the binary tree from inorder and postorder traversals
+static Node Tree(int in[], int post[], int InStart, int InEnd, int index) {
+    // if start index is greater than end index, no tree can be formed, return null
+    if(InStart > InEnd) return null; // base case
+
+    // Create a new node with the current root value from postorder traversal
+    Node root = new Node(post[index]);
+
+    // Find the position of the root value in the inorder array
+    int pos = find(in, post[index], InStart, InEnd);
+
+    // Recursively build the right subtree
+    root.right = Tree(in, post, pos + 1, InEnd, index - 1);
+
+    // Recursively build the left subtree
+    root.left = Tree(in, post, InStart, pos - 1, index - (InEnd - pos) - 1);
+
+    // Return the constructed tree (root node)
+    return root;
+}
+
+Node buildTree(int n, int in[], int post[]) {
+    return Tree(in, post, 0, n - 1, n - 1);
+}
