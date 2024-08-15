@@ -1,0 +1,34 @@
+// https://leetcode.com/problems/permutations/
+// TC - O(n * n!) => (n * total nodes)
+// SC - O(n) 
+
+void totalpermutations(int[] arr, List<List<Integer>> ans, ArrayList<Integer> temp, ArrayList<Boolean> visited) {
+    // Base condition: check if the permutation is complete
+    if (temp.size() == arr.length) {
+        ans.add(new ArrayList<>(temp)); // Add a copy of temp to ans
+        return;
+    }
+
+    for (int i = 0; i < arr.length; i++) {
+        if (!visited.get(i)) { // Check if the element is not visited
+            visited.set(i, true);
+            temp.add(arr[i]);
+
+            // Recursively build the permutation
+            totalpermutations(arr, ans, temp, visited);
+
+            // Backtrack
+            visited.set(i, false);
+            temp.remove(temp.size() - 1); // Remove the last element
+        }
+    }
+}
+
+public List<List<Integer>> permute(int[] nums) {
+    List<List<Integer>> ans = new ArrayList<>();
+    ArrayList<Integer> temp = new ArrayList<>();
+    ArrayList<Boolean> visited = new ArrayList<>(Collections.nCopies(nums.length, false));
+
+    totalpermutations(nums, ans, temp, visited);
+    return ans;
+}
