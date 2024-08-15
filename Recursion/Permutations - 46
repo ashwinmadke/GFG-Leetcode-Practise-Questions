@@ -1,6 +1,6 @@
 // https://leetcode.com/problems/permutations/
 // TC - O(n * n!) => (n * total nodes)
-// SC - O(n) 
+// SC - O(n * n!) 
 
 void totalpermutations(int[] arr, List<List<Integer>> ans, ArrayList<Integer> temp, ArrayList<Boolean> visited) {
     // Base condition: check if the permutation is complete
@@ -32,3 +32,39 @@ public List<List<Integer>> permute(int[] nums) {
     totalpermutations(nums, ans, temp, visited);
     return ans;
 }
+
+Approach 2 : swapping indexes 
+1. Start with the given array and swap the index, first with self, first with next and so on.
+2. At each level one index will get fixed & recursively do the ssame for remaining index.
+3. In the end all permutations will be generated.
+
+// TC - O(n * n!)
+// SC - O(n * n!)
+void swap(int[] nums, int i, int j){
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+    void permutations(int[]nums, List<List<Integer>> ans, int index){
+        //base case
+        if(index == nums.length){
+            List<Integer> temp = new ArrayList<>(); //new list to hold the current permutation
+            for(int num : nums){ // Iterate through the nums array
+                temp.add(num); // Add each element of nums to the temp list
+            }
+            ans.add(temp); // Add the complete permutation to the answer list
+            return;
+        }
+        
+        for(int i=index; i<nums.length; i++){
+            swap(nums, i, index); // Swap elements at indices i and index
+            permutations(nums, ans, index + 1); // Recur with the next index
+            swap(nums, i, index); // Backtrack: undo the swap
+        }
+        
+    }
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        permutations(nums, ans, 0);
+        return ans;
+    }
