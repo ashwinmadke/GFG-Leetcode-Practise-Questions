@@ -1,0 +1,78 @@
+// https://www.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1?itm_source=geeksforgeeks&itm_medium=article&itm_campaign=practice_card
+// TC - O(n)
+// SC - O(n)
+
+void RightSub(Node root, ArrayList<Integer> ans) {
+    // Base case: Stop at null or leaf node
+    if (root == null || (root.left == null && root.right == null)) {
+        return;
+    }
+    
+     // Add the node's data before diving deeper
+    ans.add(root.data); 
+    // Recurse right if possible, otherwise go left
+    if (root.right != null) {
+        RightSub(root.right, ans);
+    } else {
+        RightSub(root.left, ans);
+    }
+
+}
+
+void Leaf(Node root, ArrayList<Integer> ans) {
+    if (root == null) return;
+
+    // If it's a leaf node, add it to the result
+    if (root.left == null && root.right == null) {
+        ans.add(root.data);
+        return;
+    }
+
+    // Recurse to the left and right subtrees
+    Leaf(root.left, ans);
+    Leaf(root.right, ans);
+}
+
+void LeftSub(Node root, ArrayList<Integer> ans) {
+    // Base case: Stop at null or leaf node
+    if (root == null || (root.left == null && root.right == null)) {
+        return;
+    }
+
+    // Add the node's data before diving deeper
+    ans.add(root.data);
+
+    // Recurse left if possible, otherwise go right
+    if (root.left != null) {
+        LeftSub(root.left, ans);
+    } else {
+        LeftSub(root.right, ans);
+    }
+}
+
+ArrayList<Integer> boundary(Node root) {
+     ArrayList<Integer> ans = new ArrayList<>();
+    
+    if (root == null) return ans;
+
+    // Add the root element to the boundary list
+    ans.add(root.data);
+
+    // Add the left boundary excluding leaf nodes
+    LeftSub(root.left, ans);
+
+    // Only add leaf nodes if the root is not the only node
+    if (root.left != null || root.right != null) {
+        Leaf(root, ans);
+    }
+
+    // Create a temporary list to collect right boundary nodes
+    ArrayList<Integer> rightBoundary = new ArrayList<>();
+    RightSub(root.right, rightBoundary);
+
+    // Add the right boundary in reverse order
+    Collections.reverse(rightBoundary);
+    ans.addAll(rightBoundary);
+
+    return ans;
+}
