@@ -1,0 +1,75 @@
+// https://www.geeksforgeeks.org/problems/print-a-binary-tree-in-vertical-order/1
+// TC - O(n)
+// SC - O(n)
+
+static void findMinMax(Node root, int pos, int[] minMax) {
+    if (root == null) return;
+    // Update min and max
+    minMax[0] = Math.min(minMax[0], pos);
+    minMax[1] = Math.max(minMax[1], pos);
+    
+    // Traverse the left and right subtrees
+    findMinMax(root.left, pos - 1, minMax);
+    findMinMax(root.right, pos + 1, minMax);
+}
+
+static ArrayList<Integer> verticalOrder(Node root) {
+    if (root == null) return new ArrayList<>();
+
+    // Initialize min and max arrays
+    int[] minMax = new int[2]; // minMax[0] for min, minMax[1] for max
+    findMinMax(root, 0, minMax);
+    
+    int l = Math.abs(minMax[0]);
+    int r = minMax[1];
+    
+    ArrayList<ArrayList<Integer>> positive = new ArrayList<>(r + 1);
+    ArrayList<ArrayList<Integer>> negative = new ArrayList<>(l + 1);
+    
+    // Initialize lists for each horizontal distance
+    for (int i = 0; i <= r; i++) {
+        positive.add(new ArrayList<>());
+    }
+    for (int i = 0; i <= l; i++) {
+        negative.add(new ArrayList<>());
+    }
+    
+    // BFS for vertical order traversal
+    Queue<Node> q = new LinkedList<>();
+    Queue<Integer> index = new LinkedList<>();
+    q.add(root);
+    index.add(0);
+    
+    while (!q.isEmpty()) {
+        Node temp = q.poll();
+        int pos = index.poll();
+        
+        if (pos >= 0) {
+            positive.get(pos).add(temp.data);
+        } else {
+            negative.get(Math.abs(pos)).add(temp.data);
+        }
+        
+        if (temp.left != null) {
+            q.add(temp.left);
+            index.add(pos - 1);
+        }
+        if (temp.right != null) {
+            q.add(temp.right);
+            index.add(pos + 1);
+        }
+    }
+    
+    // Merge results into a single list
+    ArrayList<Integer> ans = new ArrayList<>();
+    for (int i = l; i > 0; i--) {
+        ans.addAll(negative.get(i));
+    }
+    ans.addAll(negative.get(0)); // Add the zero index separately
+
+    for (int i = 0; i < positive.size(); i++) {
+        ans.addAll(positive.get(i));
+    }
+    
+    return ans;
+}
