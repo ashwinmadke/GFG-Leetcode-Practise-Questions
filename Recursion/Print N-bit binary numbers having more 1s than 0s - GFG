@@ -1,0 +1,31 @@
+// https://www.geeksforgeeks.org/problems/print-n-bit-binary-numbers-having-more-1s-than-0s0252/1
+// TC - O(2^N) // at every step we have two choices
+// SC - O(N) // ignored Arraylist ans
+
+void find(int N, ArrayList<String> ans, StringBuilder temp, int zero, int one) {
+        // Base case: If temp size equals to N, add it to the answer list
+        if(temp.length() == N) {
+            ans.add(temp.toString()); // Convert StringBuilder to String 
+            return;
+        }
+        // Add a '1' and recurse
+        temp.append('1');
+        find(N, ans, temp, zero, one + 1);
+        temp.deleteCharAt(temp.length() - 1); // Remove the last character
+        
+        // If the number of '0's is less than the number of '1's, we can add a '0'
+        if(zero < one) {
+            temp.append('0');
+            find(N, ans, temp, zero + 1, one);
+            temp.deleteCharAt(temp.length() - 1); // Remove the last character
+        }
+
+    }
+
+    ArrayList<String> NBitBinary(int N) {
+        ArrayList<String> ans = new ArrayList<>();
+        StringBuilder temp = new StringBuilder();
+        find(N, ans, temp, 0, 0);
+        return ans;
+    }
+
