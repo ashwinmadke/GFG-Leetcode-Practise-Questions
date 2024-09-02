@@ -1,0 +1,32 @@
+// https://www.geeksforgeeks.org/problems/minimum-cost-of-ropes-1587115620/1?page=1&difficulty
+// TC - O(n log n)
+// SC - O(n)
+
+public long minCost(long[] arr) {
+        //priority queue - min heap
+        PriorityQueue<Long> pq = new PriorityQueue<>();
+
+        //sabhi ropes ko priority queue me dal do
+        for(long rope : arr){
+            pq.add(rope);
+        }
+
+        long totalcost = 0;
+
+        // jab tak ek se jyda ropes rehti hai priority queue me
+        while (pq.size() > 1){
+            // sabse choti 2 ko nikalo
+            long first = pq.poll();
+            long second = pq.poll();
+
+            //2 ropes ko connect karne ki cost
+            long cost = first + second;
+
+            //cost ko totalcost me add kardo
+            totalcost += cost;
+
+            //nyi rope ko wapas se priority queue me insert kardo
+            pq.add(cost);
+        }
+        return totalcost;
+    }
