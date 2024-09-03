@@ -1,0 +1,33 @@
+// https://www.interviewbit.com/problems/magician-and-chocolates/
+// TC - A * (Log n)
+// SC - O(n)
+
+public int nchoc(int A, ArrayList<Integer> B) {
+
+        final int MOD = 1000000007;
+
+        //max heap
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        // add all chocolates in bags to max heap
+        for(int chocolates : B){
+            maxHeap.offer(chocolates);
+        }
+
+        long totalChoclatesEaten = 0;
+
+        //process for max no of chocolates in a unit of time
+        for(int i=0; i<A; i++){
+            if(maxHeap.isEmpty()){
+                break;
+            }
+            // Kid eats the most chocolates from the bag with the maximum chocolates
+            int maxChocolates = maxHeap.poll();
+            totalChoclatesEaten = (totalChoclatesEaten + maxChocolates) % MOD;
+
+            //add the half of chocolates to bag with floor(chocolates/2)
+            maxHeap.offer(maxChocolates/2);
+        }
+        return (int) totalChoclatesEaten;
+
+    }
