@@ -1,0 +1,26 @@
+// https://leetcode.com/problems/last-stone-weight/
+// TC - O(nlogn)
+// SC - O(n)
+
+public int lastStoneWeight(int[] stones) {
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+
+        //add all stone to max heap
+        for(int stone : stones){
+            maxHeap.offer(stone);
+        }
+
+        //jab tak max heap ka size greater than 1 hai
+        while (maxHeap.size() > 1){
+            int heavyStone1 = maxHeap.poll();
+            int heavyStone2 = maxHeap.poll();
+
+            if(heavyStone1 != heavyStone2){
+                maxHeap.add(heavyStone1 - heavyStone2); // Add the difference back to the heap
+            }
+        }
+
+        // If no stones left, return 0; otherwise, return the last remaining stone
+        return maxHeap.isEmpty() ? 0 : maxHeap.poll();
+    }
+
