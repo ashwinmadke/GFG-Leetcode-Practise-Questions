@@ -1,0 +1,54 @@
+// https://www.geeksforgeeks.org/problems/sum-of-elements-between-k1th-and-k2th-smallest-elements3133/1?page=1&difficulty%5B%5D=0&category%5B%5D=Heap&sortBy=submissions
+// Approach 2
+// TC - O(N log max(K1,K2))
+// SC - O(max (K1,K2)
+
+// sorting method 
+    public static long sumBetweenTwoKthMethod1(long A[], long N, long K1, long K2)
+    {
+        Arrays.sort(A);
+
+        //sum between k1 and k2 smallest
+        long sum =0;
+        for(long i =K1; i<K2-1; i++){
+            sum += A[(int) i];
+        }
+        return sum;
+    }
+
+
+    //method 2 using max heap
+    public static long sumBetweenTwoKth(long A[], long N, long K1, long K2)
+    {
+        //max heap to keep track of the K1th smallest element
+        PriorityQueue<Long> maxHeap1 = new PriorityQueue<>(Collections.reverseOrder());
+        //max heap to keep track of K2th smallest element
+        PriorityQueue<Long> maxHeap2 = new PriorityQueue<>(Collections.reverseOrder());
+
+        //sum of first k1 smallest element
+        long sumK1 = 0;
+        //sum of first k2 smallest element
+        long sumK2 = 0;
+
+        for(long i : A){
+            //add elements to k2 heap & also maintain k2-1 smallest element
+            maxHeap2.offer(i);
+            sumK2 += i;// Add the element to sumK2
+
+            //if heap size exceeds size k2-1, remove the largest element
+            if(maxHeap2.size() >= K2){
+                sumK2 -= maxHeap2.poll(); // subtract the removed element from sumK2
+            }
+
+            //add elements to k1 heap & maintain k1 smallest elements
+            maxHeap1.offer(i);
+            sumK1 += i;// Add the element to sumK1
+
+            //if heap size exceeds size k1, remove the largest element
+            if(maxHeap1.size() > K1){
+                sumK1 -= maxHeap1.poll(); // subtract the removed element from sumK1
+            }
+        }
+        //difference of both is ans
+        return sumK2 - sumK1;
+    }
