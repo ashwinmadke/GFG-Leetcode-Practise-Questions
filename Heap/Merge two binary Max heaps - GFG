@@ -1,0 +1,51 @@
+// https://www.geeksforgeeks.org/problems/merge-two-binary-max-heap0144/1?page=1&difficulty%5B%5D=0&category%5B%5D=Heap&sortBy=submissions
+// TC - O(n+m)
+// SC - O(n+m)
+
+public int[] mergeHeaps(int[] a, int[] b, int n, int m) {
+        //create new array
+        int[] mergeHeap = new int[n+m];
+
+        //copy elements from array a to mergeHeap
+        for(int i=0; i<n; i++){
+            mergeHeap[i] = a[i];
+        }
+
+        //copy elements from array b to mergeHeap
+        for(int i=0; i<m; i++){
+            mergeHeap[n+i] = b[i];
+        }
+
+        //heapify merged array
+        for(int i=(n+m)/2-1; i>= 0; i--){
+            heapify(mergeHeap, n+m, i);
+        }
+
+        return mergeHeap; // returned merged max heap
+    }
+
+    private void heapify(int[] heap, int size, int i){
+        int largest = i; // root
+        int left = 2*i+1;// left child
+        int right = 2*i+2;// right child
+
+        //if left child is greater than root
+        if(left < size && heap[left] > heap[largest]){
+            largest = left;
+        }
+
+        //if right child is greater than largest
+        if(right < size && heap[right] > heap[largest]){
+                largest = right;
+        }
+
+        //if largest is not the root
+        if(largest != i){
+            //swap & continue heapifying
+            int temp = heap[i];
+            heap[i] = heap[largest];
+            heap[largest] = temp;
+
+            heapify(heap,size,largest); // do it recursively for affected subtree
+        }
+    }
