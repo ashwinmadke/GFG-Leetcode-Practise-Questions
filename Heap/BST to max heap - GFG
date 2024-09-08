@@ -1,0 +1,32 @@
+// https://www.geeksforgeeks.org/problems/bst-to-max-heap/1?page=1&difficulty%5B%5D=1&category%5B%5D=Heap&sortBy=submissions
+// TC - O(n)
+// SC - O(n)
+
+// inorder
+    private static void inorderTraversal(Node root,ArrayList<Integer> result ){
+        if(root == null) return;
+
+        inorderTraversal(root.left,result);
+        result.add(root.data);
+        inorderTraversal(root.right,result);
+    }
+
+    //postorder
+    private static void postorderTraversal(Node root,ArrayList<Integer> result, int[] index){
+        if(root == null) return;
+
+        postorderTraversal(root.left, result,index);
+        postorderTraversal(root.right,result,index);
+        root.data = result.get(index[0]); //assign values from sorted list
+        index[0]++;
+    }
+    public static void convertToMaxHeapUtil(Node root)
+    {
+        // store inorder traversal : sorted order
+        ArrayList<Integer> result = new ArrayList<>();
+        inorderTraversal(root, result);
+
+        //postorder to fill the tree with max heap values
+        int[] index = {0}; // start from the first element of the sorted list
+        postorderTraversal(root,result, index);
+    }
