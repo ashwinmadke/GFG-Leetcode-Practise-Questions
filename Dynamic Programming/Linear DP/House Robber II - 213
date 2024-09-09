@@ -1,0 +1,40 @@
+// https://leetcode.com/problems/house-robber-ii/
+// TC - O(n)
+// SC - O(n) bcoz of two arrays
+
+private int Robbery(int[] nums) {
+        int n = nums.length;
+        if(n == 0) return 0; // edge case for an empty array
+        if(n == 1) return nums[0]; // edge case for a one element
+        
+        
+        int prev2 = nums[0];
+        int prev = Math.max(nums[0], nums[1]);
+        
+        for(int i=2; i<n; i++){
+            int curr = Math.max(nums[i] + prev2, prev);
+            prev2 = prev;
+            prev = curr;
+        }
+        return prev;
+    }
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if(n == 1) return nums[0];
+        if(n == 2) return Math.max(nums[0], nums[1]);
+        int[] arr1 = new int[n-1];
+        int[] arr2 = new int[n-1];
+        
+        for(int i=0; i<n-1; i++){
+            arr1[i] = nums[i];
+        }
+        
+        for(int i=1; i<n; i++){
+            arr2[i-1] = nums[i];
+        }
+        
+        int curr1 = Robbery(arr1);
+        int curr2 = Robbery(arr2);
+        
+        return Math.max(curr1, curr2);
+    }
