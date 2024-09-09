@@ -38,3 +38,33 @@ private int Robbery(int[] nums) {
         
         return Math.max(curr1, curr2);
     }
+
+Space Optimized : 
+TC - O(n)
+SC - O(1)
+private int Robbery(int[] nums, int start, int end) {
+    if(start == end) return nums[start]; // Single element case
+    
+    int prev2 = nums[start];// max amount can be rob two houses before curr
+    int prev = Math.max(nums[start], nums[start + 1]); // max amount can be rob upto previous house
+    
+    for(int i = start + 2; i <= end; i++){
+        int curr = Math.max(nums[i] + prev2, prev);
+        prev2 = prev;
+        prev = curr;
+    }
+    return prev;
+}
+
+public int rob(int[] nums) {
+    int n = nums.length;
+    if(n == 0) return 0; // Handle empty array 
+    if(n == 1) return nums[0];
+    if(n == 2) return Math.max(nums[0], nums[1]);
+    
+    // Rob either from house 0 to n-2, or from house 1 to n-1
+    int curr1 = Robbery(nums, 0, n - 2);
+    int curr2 = Robbery(nums, 1, n - 1);
+    
+    return Math.max(curr1, curr2);
+}
