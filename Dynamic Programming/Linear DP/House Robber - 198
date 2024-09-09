@@ -1,6 +1,20 @@
 // https://leetcode.com/problems/house-robber/
-// TC-> O(N)
-// SC-> O(1)
+
+Recursive Code : TLE
+TC - O(n^2) due to recursive calls
+SC - O(n) due to recursion
+private int Robbery(int index, int[] nums){
+        if(index == 0) return nums[0];
+        if(index == 1) return Math.max(nums[0], nums[1]);
+        
+        return Math.max(nums[index] + Robbery(index-2, nums), Robbery(index-1, nums));
+    }
+    public int rob(int[] nums) {
+        int n = nums.length;
+        return Robbery(n-1, nums);
+    }
+
+
 
 Thought Process :
 If there are no houses or only one house, return 0 or the value of that single house accordingly.
