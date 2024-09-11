@@ -1,0 +1,41 @@
+// https://leetcode.com/problems/sorting-the-sentence/
+// TC - O(n)
+// SC - O(n) in worst case bcoz of string builder to store the result
+
+public String sortSentence(String s) {
+        String[] ans = new String[10];
+        String temp = "";
+        int countWord = 0;
+        int index = 0;
+        
+        while(index < s.length()){
+            if(s.charAt(index) == ' '){
+                // extract the position from last character of word
+                int pos = temp.charAt(temp.length()-1) - '0';
+                temp = temp.substring(0, temp.length()-1); // will remove the digit
+                ans[pos] = temp; // store word at correct position
+                temp = ""; // will clear the temp
+                countWord++;
+            }
+            else {
+                temp += s.charAt(index);
+            }
+            index++;
+        }
+        // Handling the last word after the loop
+            int pos = temp.charAt(temp.length()-1) - '0';
+            temp = temp.substring(0, temp.length()-1); // will remove the digit
+            ans[pos] = temp; // store word at correct position
+            temp = ""; // will clear the temp
+            countWord++;
+        
+        // form the sorted sentence
+        StringBuilder sortedSentence = new StringBuilder();
+        for(int i=1; i<=countWord; i++){
+            sortedSentence.append(ans[i]);
+            sortedSentence.append(' ');
+        }
+        //remove the extra space at the end
+        sortedSentence.deleteCharAt(sortedSentence.length()-1);
+        return sortedSentence.toString();
+    }
