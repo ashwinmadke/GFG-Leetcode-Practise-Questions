@@ -1,0 +1,50 @@
+// https://leetcode.com/problems/longest-palindrome/
+// TC - O(n)
+// SC - O(1) or O(26) constant
+
+public int longestPalindrome(String s) {
+        int[] lower = new int[26];
+        int[] upper = new int[26];
+        
+        //frequency updated of characters
+        for(int i=0; i<s.length(); i++){
+            
+            //current character small hai to lower me jayega else upper me
+            if(s.charAt(i) >= 'a'){
+                lower[s.charAt(i) - 'a']++;
+            }
+            else{
+                upper[s.charAt(i) - 'A']++;
+            }
+        }
+        
+        int count  = 0;
+        boolean odd = false;
+        
+        //traverse over frequency array
+        for(int i=0; i<26; i++){
+            //lower
+            if(lower[i]%2 == 0) // agar even hai to directly add kardo count me
+            {
+                 count += lower[i];
+            }
+            else
+            {
+                count += lower[i]-1;
+                odd = true;
+            }
+            
+            //upper
+            if(upper[i]%2 == 0) // agar even hai to directly add kardo count me
+            {
+                 count += upper[i];
+            }
+            else
+            {
+                count += upper[i]-1;
+                odd = true;
+            }
+        }
+        return odd ? count +1 : count; // yadi odd true hai to count me +1 krke return kardo , varna count return kardo
+        
+    }
