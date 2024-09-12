@@ -1,0 +1,19 @@
+// https://leetcode.com/problems/defanging-an-ip-address/
+// TC - O(n)
+// SC - O(n)
+
+public String defangIPaddr(String address) {
+        int index = 0;
+        String ans = "";
+        
+        while(index < address.length()){
+            if(address.charAt(index) == '.'){
+                ans += "[.]";
+            }
+            else{
+                ans += address.charAt(index);
+            }
+            index++;
+        }
+        return ans;
+    }
