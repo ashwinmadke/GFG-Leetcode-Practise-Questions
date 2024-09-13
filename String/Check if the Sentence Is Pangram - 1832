@@ -1,0 +1,18 @@
+// https://leetcode.com/problems/check-if-the-sentence-is-pangram/
+// TC - O(n)
+// SC - O(1) or O(26)
+
+int[] freq = new int[26]; // array to store frequency of each characters
+        
+        //now traverse over sentence string 
+        for(char ch : sentence.toCharArray()){
+            freq[ch - 'a'] = 1; // if character present set it's frequency to 1
+        }
+        
+        //check if all characters are present
+        for(int count : freq){
+            if(count == 0) return false;
+        }
+        return true;
+        
+    }
