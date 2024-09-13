@@ -1,0 +1,24 @@
+// https://www.geeksforgeeks.org/problems/sort-a-string2943/1
+// TC - O(n)
+// SC - O(n)
+
+String sort(String s) 
+    {
+        int[] alpha = new int [26];
+        
+        for(char ch : s.toCharArray()){
+            alpha[ch - 'a']++; // will increment frequency of character
+        }
+        
+        String ans = "";
+        //iterate over frequency array
+        for(int i=0; i<26; i++){
+            char ch = (char) ('a' + i); // convert index to character
+            
+            while(alpha[i] > 0){
+                ans += ch;
+                alpha[i]--;
+            }
+        }
+        return ans;
+    }
