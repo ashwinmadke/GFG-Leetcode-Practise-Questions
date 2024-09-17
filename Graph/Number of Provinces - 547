@@ -1,0 +1,32 @@
+// https://leetcode.com/problems/number-of-provinces/
+
+//DFS Code
+// TC - O(N^2)
+// SC - O(N^2)
+
+private void dfs(int[][] isConnected,boolean[] visited, int curr ){
+        visited[curr] = true;
+
+        //traverse over adjacent nodes
+        for(int j=0; j< isConnected.length; j++){
+            if(isConnected[curr][j] == 1 && visited[j] == false){
+                dfs(isConnected,visited,j);
+            }
+        }
+
+    }
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        boolean[] visited = new boolean[n];
+        int countProvinces = 0;
+
+        //traverse over each node
+        for(int i=0; i<n; i++){
+            //check if the curr node is not already visited
+            if(visited[i] == false){
+                dfs(isConnected, visited, i);
+                countProvinces++;
+            }
+        }
+        return countProvinces;
+    }
