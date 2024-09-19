@@ -1,0 +1,27 @@
+// https://leetcode.com/problems/flood-fill/
+// TC - O(n)
+// SC - O(n), bcoz of recursion stack
+
+public static void dfs(int[][] image, int srow, int scol, int newColor, int originalColor){
+        //base case -if the current cell is out of bounds or its color is not the original color
+        if(srow < 0 || srow >= image.length || scol < 0 || scol >= image[0].length || image[srow][scol] != originalColor){
+            return;
+        }
+
+        // change color of current cell
+        image[srow][scol] = newColor;
+
+        //recursively do the same thing for all  directions
+        dfs(image,srow-1,scol,newColor,originalColor); // up
+        dfs(image, srow+1, scol, newColor, originalColor);//down
+        dfs(image, srow, scol-1, newColor, originalColor); // left
+        dfs(image, srow, scol+1, newColor, originalColor); // right
+    }
+    public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
+        int originalColor = image[sr][sc];
+
+        if(originalColor != newColor){
+            dfs(image, sr, sc, newColor, originalColor);
+        }
+        return image;
+    }
