@@ -1,0 +1,29 @@
+// https://www.geeksforgeeks.org/problems/bfs-traversal-of-graph/1
+// TC - O(V+E)
+// SC - O(V+E)
+
+public ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        ArrayList<Integer> bfsResult = new ArrayList<>();
+        boolean[] visited = new boolean[V];
+        Queue<Integer>q = new LinkedList<>();
+        
+        //starting bfs from node 0
+        //mark node 0 as true and add it in queue
+        visited[0] = true;
+        q.add(0);
+        
+        while(!q.isEmpty()){
+            int node = q.poll();
+            bfsResult.add(node);
+            
+            //find all neighbor's of the curr node
+            for(int neighbor : adj.get(node)){
+                // if it is not visited 
+                if(visited[neighbor] == false){
+                    visited[neighbor] = true ;// visit it and mark it as true
+                    q.add(neighbor); // add neighbor's to queue
+                }
+            }
+        }
+        return bfsResult;
+    }
