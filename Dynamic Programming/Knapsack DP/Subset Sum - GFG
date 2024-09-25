@@ -1,0 +1,43 @@
+// https://www.geeksforgeeks.org/problems/subset-sum-problem-1611555638/1
+
+Recursive code :
+TC - O(2^n)
+SC - O(n) bcoz of recursive stack
+static Boolean isSubsetSum(int n, int arr[], int sum){
+        // code here
+        if(sum == 0) return true;
+
+        if(n == 0) return false;
+
+        if(arr[n-1] > sum){
+            return isSubsetSum(n-1,arr,sum);
+        }
+        return  isSubsetSum(n-1, arr, sum-arr[n-1]) || isSubsetSum(n-1,arr,sum);
+    }
+
+Top Down Approach :
+TC - O(n*sum)
+SC - O(n*sum)
+static Boolean subSetSumRecursive(int n, int arr[], int sum, Boolean[][] dp){
+        if(sum == 0) return true;
+        
+        if(n == 0) return false;
+        
+        //if already calculated
+        if(dp[n][sum] != null){
+            return dp[n][sum];
+        }
+        
+        if(arr[n-1] > sum){
+            dp[n][sum] = subSetSumRecursive(n-1,arr,sum,dp);
+        }
+      else{
+          dp[n][sum] =  subSetSumRecursive(n-1, arr, sum-arr[n-1], dp) || subSetSumRecursive(n-1,arr,sum, dp);
+      }
+      return dp[n][sum];
+    }
+    static Boolean isSubsetSum(int n, int arr[], int sum){
+        // code here
+        Boolean[][] dp = new Boolean[n+1][sum+1];
+        return subSetSumRecursive(n, arr, sum, dp);
+    }
