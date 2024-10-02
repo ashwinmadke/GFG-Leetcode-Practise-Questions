@@ -1,0 +1,60 @@
+// https://leetcode.com/problems/coin-change/submissions/
+
+// Recursive code -
+TC - O(coins.length^amount)
+SC- O(amount) - bcoz of recursive stack
+static int recursive(int[] coins, int amount){
+        //handling base case
+        if(amount == 0) return 0; //no coins are needed to make sum 0 , so return 0
+        
+        if(amount < 0) return 100000; // as amount can't be negative so return very big number
+        
+        int minCoins = 100000;
+        
+        for(int coin : coins){
+            int remainingSum = amount - coin;
+            int cost2makeRemainSum = recursive(coins, remainingSum);
+            
+            minCoins = Math.min(minCoins,cost2makeRemainSum );
+        }
+      return minCoins + 1; // 1 is for self
+        
+    }
+public int coinChange(int[] coins, int amount) {
+        int ans = memo(coins, amount);
+        if(ans >= 100000) return -1;
+        
+        return ans;
+    }
+
+// Memoization code
+// TC - O(coins.len * amount)
+// SC - O(amount)
+static int memo(int[] coins, int amount, int[] dp){
+        //handling base case
+        if(amount == 0) return 0; //no coins are needed to make sum 0 , so return 0
+        
+        if(amount < 0) return 100000; // as amount can't be negative so return very big number
+        
+        //already calculated
+        if(dp[amount] != 0) return dp[amount]; // recall
+        
+        int minCoins = 100000;
+        
+        for(int coin : coins){
+            int remainingSum = amount - coin;
+            int cost2makeRemainSum = memo(coins, remainingSum, dp);
+            
+            minCoins = Math.min(minCoins,cost2makeRemainSum);
+        }
+      return dp[amount] = minCoins + 1; // 1 is for self
+        
+    }
+    public int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount+1];
+        
+        int ans = memo(coins, amount,dp);
+        if(ans >= 100000) return -1;
+        
+        return ans;
+    }
