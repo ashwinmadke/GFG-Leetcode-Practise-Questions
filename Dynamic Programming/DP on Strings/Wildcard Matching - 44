@@ -1,0 +1,46 @@
+// https://leetcode.com/problems/wildcard-matching/submissions/
+
+ public static boolean recur(String s, String p, int i, int j) {
+    // If both string and pattern are matched, return true
+    if (i == s.length() && j == p.length()) return true;
+
+    // If pattern is finished but the string is not, return false
+    if (i != s.length() && j == p.length()) return false;
+
+    // If the string is finished but the pattern is not, ensure the remaining pattern only contains '*'
+    if (i == s.length() && j != p.length()) {
+        if (p.charAt(j) != '*') {
+            return false;
+        }
+        // Skip consecutive '*' characters in pattern 
+        return recur(s, p, i, j + 1);
+    }
+
+    // If current character in pattern is '?' can match any single character
+    if (p.charAt(j) == '?') {
+        return recur(s, p, i + 1, j + 1);
+    }
+    // If current character in pattern is '*', it can match empty string or consume one character from s
+    else if (p.charAt(j) == '*') {
+        // Skip consecutive '*' characters in the pattern
+        while (j < p.length() && p.charAt(j) == '*') {
+            j++;
+        }
+        // Try both options: '*' matches empty (move in pattern) or matches one char in s (move in s)
+        boolean empty = recur(s, p, i, j); // '*' matches empty
+        boolean consume = i < s.length() && recur(s, p, i + 1, j - 1); // '*' matches one character
+        return empty || consume;
+    }
+
+    // If characters don't match, return false
+    if (s.charAt(i) != p.charAt(j)) {
+        return false;
+    }
+    
+    // if characters matched , make call for next remaining string
+    return recur(s, p, i + 1, j + 1);
+}
+
+public boolean isMatch(String s, String p) {
+    return recur(s, p, 0, 0);
+}
