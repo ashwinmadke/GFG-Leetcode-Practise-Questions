@@ -1,60 +1,55 @@
 // https://leetcode.com/problems/coin-change/submissions/
 
 // Recursive code -
+
 TC - O(coins.length^amount)
 SC- O(amount) - bcoz of recursive stack
-static int recursive(int[] coins, int amount){
-        //handling base case
-        if(amount == 0) return 0; //no coins are needed to make sum 0 , so return 0
+private static int minCoins(int i, int[] coins, int amount){
+        // no coins needed
+        if(amount == 0) return 0;
         
-        if(amount < 0) return 100000; // as amount can't be negative so return very big number
+        if(amount < 0 || i == coins.length) return 100000; // as amount can't be negative so return very big number
         
-        int minCoins = 100000;
+        // take 
+        int take = 1 + minCoins(i, coins, amount-coins[i]);
         
-        for(int coin : coins){
-            int remainingSum = amount - coin;
-            int cost2makeRemainSum = recursive(coins, remainingSum);
-            
-            minCoins = Math.min(minCoins,cost2makeRemainSum );
-        }
-      return minCoins + 1; // 1 is for self
+        // not take
+        int notTake = minCoins(i+1, coins, amount);
         
+        return Math.min(take, notTake);
     }
-public int coinChange(int[] coins, int amount) {
-        int ans = memo(coins, amount);
-        if(ans >= 100000) return -1;
-        
-        return ans;
+    public int coinChange(int[] coins, int amount) {
+        int result = minCoins(0, coins, amount);
+        return result >= 100000 ? -1 : result;
     }
 
 // Memoization code
 // TC - O(coins.len * amount)
 // SC - O(amount)
-static int memo(int[] coins, int amount, int[] dp){
-        //handling base case
-        if(amount == 0) return 0; //no coins are needed to make sum 0 , so return 0
+private static int minCoins(int i, int[] coins, int amount, int dp[][]){
+        // no coins needed
+        if(amount == 0) return 0;
         
-        if(amount < 0) return 100000; // as amount can't be negative so return very big number
+        if(amount < 0 || i == coins.length) return 100000;
         
-        //already calculated
-        if(dp[amount] != 0) return dp[amount]; // recall
+        // already calculated
+        if(dp[i][amount] != -1) return dp[i][amount];
         
-        int minCoins = 100000;
+        // take 
+        int take = 1 + minCoins(i, coins, amount-coins[i], dp);
         
-        for(int coin : coins){
-            int remainingSum = amount - coin;
-            int cost2makeRemainSum = memo(coins, remainingSum, dp);
-            
-            minCoins = Math.min(minCoins,cost2makeRemainSum);
-        }
-      return dp[amount] = minCoins + 1; // 1 is for self
+        // not take
+        int notTake = minCoins(i+1, coins, amount, dp);
         
+        return dp[i][amount] = Math.min(take, notTake);
     }
     public int coinChange(int[] coins, int amount) {
-        int[] dp = new int[amount+1];
+        int dp[][] = new int[coins.length+1][amount+1];
         
-        int ans = memo(coins, amount,dp);
-        if(ans >= 100000) return -1;
+        for(int[] i : dp){
+            Arrays.fill(i,-1);
+        }
         
-        return ans;
+        int result = minCoins(0, coins, amount, dp);
+        return result >= 100000 ? -1 : result;
     }
