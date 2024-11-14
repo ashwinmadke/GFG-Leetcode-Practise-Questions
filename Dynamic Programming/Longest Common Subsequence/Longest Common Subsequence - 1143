@@ -1,0 +1,57 @@
+https://leetcode.com/problems/longest-common-subsequence/
+
+Recursive Code - 
+public static int solve(String s1, String s2, int i, int j){
+        if(i >= s1.length() || j >= s2.length()) 
+            return 0;
+        
+        if(s1.charAt(i) == s2.charAt(j)){
+            return 1 + solve(s1,s2,i+1,j+1);
+        }
+        else {
+            int include_i = solve(s1,s2,i,j+1);
+            int include_j = solve(s1,s2,i+1,j);
+            return Math.max(include_i,include_j);
+            
+            //other way
+            //return Math.max(solve(s1,s2,i,j+1),solve(s1,s2,i+1,j));
+        }
+    }
+    
+    public int longestCommonSubsequence(String s1, String s2) {
+        
+       return solve(s1,s2,0,0);
+    }
+
+Memoization Code -
+
+public static int solveMemo(String s1, String s2, int i, int j,int dp[][]){
+        if(i >= s1.length() || j >= s2.length()) 
+            return 0;
+        
+        //already calculated
+        if(dp[i][j] != -1){
+            return dp[i][j];
+        }
+        if(s1.charAt(i) == s2.charAt(j)){
+            dp[i][j] =  1 + solveMemo(s1,s2,i+1,j+1,dp);
+        }
+        else {
+            int include_i = solveMemo(s1,s2,i,j+1,dp);
+            int include_j = solveMemo(s1,s2,i+1,j,dp);
+            dp[i][j] =  Math.max(include_i,include_j);
+        }
+        return dp[i][j];
+    }
+    
+    public int longestCommonSubsequence(String s1, String s2) {
+       int dp[][] = new int[1001][1001];
+        
+        //initialize dp with -1
+        for(int i=0; i<1001; i++){
+            for(int j=0; j<1001; j++){
+                dp[i][j] = -1;
+            }
+        }
+       return solveMemo(s1,s2,0,0,dp);
+    }
