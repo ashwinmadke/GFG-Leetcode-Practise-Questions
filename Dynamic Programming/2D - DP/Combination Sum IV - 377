@@ -1,0 +1,59 @@
+//
+
+Recursive code - 
+TC - O(2^n)
+SC - O(n)
+public static int Solve(int idx,int[] nums, int target){
+        int n = nums.length;
+
+        if(target == 0) return 1; // valid combination found
+
+        if( idx >= n || target < 0) return 0; // invalid combination
+
+        int take_idx = Solve(0,nums, target-nums[idx]);
+        int reject_idx = Solve(idx+1,nums,target);
+        
+        return take_idx + reject_idx;
+     }
+    public int combinationSum4(int[] nums, int target) {
+        int n = nums.length;
+        return Solve(0, nums,target);
+    }
+
+
+Memoization -
+TC - O(n * target)
+SC - O(n * target) memoization + O(n) stack space
+public static int SolveMemo(int idx,int[] nums, int target, int[][] dp){
+        int n = nums.length;
+
+        if(target == 0) return 1; // valid combination found
+        if( idx >= n || target < 0) return 0; // invalid combination
+
+        // if already calculated
+        if(dp[idx][target] != -1){
+            return dp[idx][target];
+        }
+        
+        int take_idx = SolveMemo(0,nums, target-nums[idx],dp);
+        int reject_idx = SolveMemo(idx+1,nums,target,dp);
+        
+        // store result in dp array
+        dp[idx][target] = take_idx + reject_idx;
+        return  dp[idx][target];
+    }
+    
+    public int combinationSum4(int[] nums, int target) {
+        int n = nums.length;
+        int dp[][] = new int [n+1][target+1];
+
+            for(int i=0; i<=n; i++)
+            {
+            for(int j=0; j<=target; j++){
+            dp[i][j] = -1;
+            }
+        }
+
+        return SolveMemo(0, nums,target, dp);
+    }
+    
