@@ -3,32 +3,53 @@
 Recursive Code : TLE
 TC - O(n^2) due to recursive calls
 SC - O(n) due to recursion
-private int Robbery(int index, int[] nums){
-        if(index == 0) return nums[0];
-        if(index == 1) return Math.max(nums[0], nums[1]);
+
+public static int Solve(int index, int[] nums){
+        int n = nums.length;
         
-        return Math.max(nums[index] + Robbery(index-2, nums), Robbery(index-1, nums));
+        // agar 1 he ghar bacha ho tb vhi pe chori kar skte ho . to vhi amount return kardo
+        if(index == 0) return nums[0];
+        
+        // agar 2 ghar bache ho to , dono me se max return kardo -> ye index -ve hone se bachalega
+        if(index == 1)
+            return Math.max(nums[0],nums[1]);
+        
+                    // chori ki nth ghr pe to next ghr n-2    // chori nhi ki nth ghr pe to next  ghr n-1
+        return Math.max(nums[index] + Solve(index - 2, nums), Solve(index -1, nums));
     }
     public int rob(int[] nums) {
         int n = nums.length;
-        return Robbery(n-1, nums);
+        return Solve(n-1, nums);
     }
 
 Dynamic Programming Code : 
 Top Down
 TC - O(n)
 SC - O(n) + O(n), [recursion + dp array]
-private int Robbery(int index, int[] nums, int[] dp){
+
+public static int SolveMemo(int index, int[] nums, int[] dp){
+        int n = nums.length;
+        
+        // agar 1 he ghar bacha ho tb vhi pe chori kar skte ho . to vhi amount return kardo
         if(index == 0) return nums[0];
-        if(index == 1) return Math.max(nums[0], nums[1]);
-        if(dp[index] != -1) return dp[index];
-        return dp[index] =  Math.max(nums[index] + Robbery(index-2, nums, dp), Robbery(index-1, nums,dp));
+        
+        // agar 2 ghar bache ho to , dono me se max return kardo -> ye index -ve hone se baca lega
+        if(index == 1)
+            return Math.max(nums[0],nums[1]);
+        
+        // check karlo agr already calculated hai to
+        if(dp[index] != -1){
+            return dp[index];
+        }
+        
+                    // chori ki nth ghr pe to next ghr n-2    // chori nhi ki nth ghr pe to next  ghr n-1
+        return dp[index] =  Math.max(nums[index] + SolveMemo(index - 2, nums, dp), SolveMemo(index -1, nums, dp));
     }
     public int rob(int[] nums) {
         int n = nums.length;
         int[] dp = new int[n];
         Arrays.fill(dp, -1);
-        return Robbery(n-1, nums, dp);
+        return SolveMemo(n-1, nums, dp);
     }
 
 
