@@ -1,0 +1,58 @@
+// https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+
+
+/************************************************************ Brute Force Approach ************************************************/
+
+TC - O(n) + O(k) = O(n)
+SC - O(K), to store unique elements
+
+Approach -
+1. Traverse over original array & take set or array to store unique elements.
+2. Now traverse over unique array/set and replace elements in original array , starting from 0th index & move curr index forward.
+3. Now return size of unique element.
+
+public int removeDuplicatesBruteForce(int[] nums) {
+        int n = nums.length;
+        Set<Integer> unique = new HashSet<>();
+
+        for(int i : nums){
+            unique.add(i);
+        }
+
+        int index = 0;
+        for(int val : unique){
+            nums[index] = val;
+            index++;
+        }
+        return unique.size();
+    }
+
+
+/************************************************************ Two Pointers Approach ************************************************/
+TC - O(n)
+SC - O(1)
+
+Approach -
+1.Take two pointers: i and j.
+2.Pointer i keeps track of the position where the next unique element should be placed.
+3.Pointer j explores the array to find unique elements.
+4.Start with i = 0 (pointing to first element) and j = 1 (pointing to second element).
+5.Move j from left to right through the array:
+	a. If the element at j is not equal to the element at i (indicating a unique element), increment i and overwrite the value at i with the value at j.
+6.After the loop, the first i + 1 elements of the array will contain the unique elements.
+7.Return i+1 for unique elements.
+
+public int removeDuplicates(int[] nums) {
+        int n = nums.length;
+        int i = 0; // i -> unique element
+        int j = 1; // j -> find unique element
+
+        while (j<n){
+            if(nums[i] != nums[j]){
+                i++;
+                nums[i] = nums[j];
+            }
+                j++; // increment j to find unique element
+        }
+        return i+1;
+    }
