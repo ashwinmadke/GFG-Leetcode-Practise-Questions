@@ -16,3 +16,39 @@ public int[] twoSum(int[] nums, int target) {
         }
         return new int[]{}; // if no pair found return empty array
 }
+
+
+/************************************************************ Two Pointers (Will only work if array is sorted) ************************************************/
+TC - O(n)
+SC - O(1)
+
+Approach -
+1. Initialize 2 pointers, left at start and right at end.
+2. While left < right, calculate the sum of the two numbers.
+	a. If sum equals to the target, return the indices.
+	b. If the sum is less than the target, move the left pointer one step towards right (increase the sum).
+	c. If the sum is greater than the target, move the right pointer one step towards left (decrease the sum).
+3. If no solution exists, return an empty result.
+
+Note - For unsorted array, first sort it and apply same logic, 
+TC - O(nlogn)
+
+public int[] twoSum(int[] nums, int target) {
+        int n = nums.length;
+        int i=0;
+        int j=n-1;
+
+        while (i<j){
+            int sum = nums[i] + nums[j];
+            if( sum == target){
+                return new int[]{i,j};
+            }
+            else if(sum > target){
+                j--;
+            }
+            else {
+                i++;
+            }
+        }
+        return new int[] {};
+    }
