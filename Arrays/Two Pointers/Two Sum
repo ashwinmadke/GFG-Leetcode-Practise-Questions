@@ -30,9 +30,6 @@ Approach -
 	c. If the sum is greater than the target, move the right pointer one step towards left (decrease the sum).
 3. If no solution exists, return an empty result.
 
-Note - For unsorted array, first sort it and apply same logic, 
-TC - O(nlogn)
-
 public int[] twoSum(int[] nums, int target) {
         int n = nums.length;
         int i=0;
