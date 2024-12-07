@@ -49,3 +49,28 @@ public int[] twoSum(int[] nums, int target) {
         }
         return new int[] {};
     }
+
+/************************************************************ Optimal Approach - Using HashMap ************************************************/
+TC - O(n)
+SC - O(n)
+
+Approach - 
+1. Traverse the array once, maintaining a hash map to store the values and their indices.
+2. For each number in the array, calculate its complement (i.e. target - nums[i]).
+3. Check if the complement already exists in the hash map:
+	a. If yes, return the indices of the complement and the current number.
+	b. If no, store the current number with its index in the map.
+
+public int[] twoSum(int[] nums, int target) {
+        int n = nums.length;
+       //map to store the numbers & their indices
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i=0;i<n; i++){
+            int complement = target-nums[i]; // calculate complement
+            if(map.containsKey(complement)){ // check if complement exists in map
+                return new int[] {map.get(complement),i}; // if found return indices
+            }
+            map.put(nums[i],i );// add curr number & its index into map
+        }
+        return new int[] {}; // if no solution found , return empty array
+    }
