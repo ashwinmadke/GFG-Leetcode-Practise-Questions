@@ -1,0 +1,57 @@
+// https://leetcode.com/problems/move-zeroes/
+
+/************************************************************ Brute Force Approach ************************************************/
+TC - O(n)
+SC - O(n)
+
+Approach Steps :
+1. Take an temp array of same size of original array to store non-zero elements.
+2. Now traverse over original array and copy non-zero elements to temp array,if any zero encounter skip it.
+3. Now fill the remaining array with 0, after all non zero elements.
+4. Now copy back temp array to original array.
+
+public static void moveZeroes(int[] nums) {
+        int n = nums.length;
+
+        / temporary array of the same size of org array
+        int[] temp = new int[n];
+        int index = 0;
+
+        //Traverse the original array and copy non-zero elements to temp
+        for (int num : nums) {
+            if (num != 0) {
+                temp[index++] = num;
+            }
+        }
+
+        // Fill the remaining positions in the temp array with zeros (In java it initialize with 0 by default)
+        
+        // Step 4: Copy the elements from temp back to the original array
+        for (int i = 0; i < n; i++) {
+            nums[i] = temp[i];
+        }
+    }
+
+/************************************************************ Two Pointers Approach ************************************************/
+TC - O(n)
+SC - O(1)
+
+Approach Steps:
+1.Take two pointers a pointer idx to track the position where the next non-zero element should go, Start with idx = 0.
+2.And next pointer to traverse the array with a loop. Whenever a non-zero element is encountered, swap it with idx and increment idx.
+3.At the end all zeroes will be in end.
+
+public void moveZeroes(int[] nums) {
+        int n = nums.length;
+        int idx = 0;
+
+        for(int i=0;i<n;i++){
+            if(nums[i] != 0){
+                int temp = nums[i];
+                nums[i] = nums[idx];
+                nums[idx] = temp;
+
+                idx++;
+            }
+        }
+    }
