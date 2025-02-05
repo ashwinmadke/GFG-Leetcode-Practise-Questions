@@ -3,28 +3,34 @@
 
 /************************************************************ Brute Force Approach ************************************************/
 
-TC - O(n) + O(k) = O(n)
-SC - O(K), to store unique elements
+TC - O(n) = [ O(n) Traversal + O(n) comparison + O(n) copy back ]
+SC - O(n) bcoz of temp array
 
 Approach -
-1. Traverse over original array & take set or array to store unique elements.
-2. Now traverse over unique array/set and replace elements in original array , starting from 0th index & move curr index forward.
-3. Now return size of unique element.
+1.Create a temp array of the same size as nums[].
+2.Copy the first element of nums[] into temp[].
+3.While iterating through nums[], compare each element with the last stored element in temp[].
+4.If it's different, add it to temp[].
+5.Copy elements from temp[] back to nums[].
 
-public int removeDuplicatesBruteForce(int[] nums) {
+public int removeDuplicates(int[] nums) {
         int n = nums.length;
-        Set<Integer> unique = new HashSet<>();
+        
+        int[] temp = new int[n];
+        temp[0] = nums[0] ; // first ele is unique
+        int j = 1; // index for temp array
 
-        for(int i : nums){
-            unique.add(i);
+        for(int i=0; i<n; i++){
+            if(nums[i] != temp[j-1]){
+                temp[j] = nums[i];
+                j++;
+            }
         }
-
-        int index = 0;
-        for(int val : unique){
-            nums[index] = val;
-            index++;
+        // copy back to org array
+        for(int i=0; i<n; i++){
+            nums[i] = temp[i];
         }
-        return unique.size();
+        return j; // new length;
     }
 
 
