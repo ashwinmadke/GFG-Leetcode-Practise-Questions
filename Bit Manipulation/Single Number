@@ -1,0 +1,26 @@
+// https://leetcode.com/problems/single-number/description/
+
+/************************************************************ Brute Force Approach ************************************************/
+
+Idea - Traverse the array and while traversing it store the frequency of each number in a HashMap. Once done,traverse the map to find the element with a frequency of exactly 1 and return the number.
+
+TC - O(n)
+SC - O(n)
+
+public int singleNumber(int[] nums) {
+        // map to count numbers and its frequency
+        HashMap<Integer,Integer>fm = new HashMap<>();
+
+        // traverse over nums and add frequency of numbers
+        for(int num : nums){
+            fm.put(num,fm.getOrDefault(num,0)+1);
+        }
+
+        // search for number with frequency 1 and return it
+        for(int num : fm.keySet()){
+            if(fm.get(num)==1){
+                return num;
+            }
+        }
+        return -1;
+    }
