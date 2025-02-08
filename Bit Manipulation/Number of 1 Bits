@@ -17,3 +17,18 @@ public int hammingWeight(int n) {
         }
         return count;
     }
+
+
+/************************************************************ Optimal Approach ************************************************/
+
+Idea - keep right shifting n and check if least significant bit is 1 by using (n & 1) increment the count when it is 1.
+TC - O(no of bits) = O(1)
+SC - O(1)
+public int hammingWeight(int n) {
+        int count = 0;
+        while (n!=0){
+            count += (n & 1);
+            n >>>= 1;
+        }
+        return count;
+    }
