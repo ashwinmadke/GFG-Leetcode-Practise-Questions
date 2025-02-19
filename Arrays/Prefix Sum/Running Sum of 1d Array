@@ -1,6 +1,6 @@
 // https://leetcode.com/problems/running-sum-of-1d-array/description/
 
-Approach - Prefix Sum
+Approach 1- Prefix Sum
 TC - O(n)
 SC - O(n)
 
@@ -13,4 +13,15 @@ public int[] runningSum(int[] nums) {
             prefix[i] = prefix[i-1] + nums[i];
         } 
         return prefix;
+    }
+
+Approach 2 - In place Modification
+TC - O(n)
+SC - O(1)
+public int[] runningSum(int[] nums) {
+        
+        for(int i=1; i<nums.length; i++){
+            nums[i] += nums[i-1];
+        }
+        return nums;
     }
