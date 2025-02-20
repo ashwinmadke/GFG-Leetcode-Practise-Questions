@@ -26,3 +26,60 @@ public int findMaxLength(int[] nums) {
         }
         return maxLen;
   }
+
+/************************************************************ Other Approach ************************************************/
+TC - O(n^2)
+SC - O(1)
+
+
+Idea - Computes prefix sum for every new subarray 
+Array me 0 aane pe use -1 me convert krdo and ek prefix sum array maintain karo, yadi same sum dusre index pe bhi aata hai mtlab unke bich ke elements valid subarray form kar rhe hai.
+public int findMaxLength(int[] nums) {
+    int n = nums.length;
+    int[] prefixSum = new int[n + 1];
+    
+    // Convert 0s to -1s s
+    for (int i = 0; i < n; i++) {
+        prefixSum[i + 1] = prefixSum[i] + (nums[i] == 0 ? -1 : 1);
+    }
+    
+    int maxLen = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j <= n; j++) {
+            if (prefixSum[i] == prefixSum[j]) {
+                maxLen = Math.max(maxLen, j - i);
+            }
+        }
+    }
+    return maxLen;
+}
+
+/************************************************************ Optimal Approach ************************************************/
+TC - O(n)
+SC - O(n)
+
+Idea - Stores prefix sums in a HashMap to avoid recomputation
+public int findMaxLength(int[] nums) {
+        int n = nums.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int sum = 0;
+        int maxLen = 0;
+        map.put(0,-1); // to handle edge case, when all subarray is valid
+
+        for(int i=0; i<n; i++){
+            if(nums[i] == 0){
+                sum += -1;
+            }
+            else{
+                sum += 1;
+            }
+
+            if(map.containsKey(sum)){
+                maxLen = Math.max(maxLen, i-map.get(sum));
+            }
+            else{
+                map.put(sum,i);
+            }
+        }
+        return maxLen;
+    }
