@@ -18,3 +18,27 @@
         return recur(i+1, n) + recur(i+2, n) + recur(i+3, n);
 }
 
+//Top Down - Memoization
+// Time Complexity - O(n)
+// Space Complexity - O(n)
+
+// Function to count the number of ways in which frog can reach the top.
+    static int countWays(int n) {
+       int[] dp = new int[n+2];
+       Arrays.fill(dp, -1);
+       return memo(0, n, dp);
+}
+    
+    private static int memo(int i, int n, int[] dp){
+            
+        //base case
+        if(i == n) return 1;
+        
+        if(i > n) return 0;
+        
+        //already calculated
+        if(dp[i] != -1){
+            return dp[i];
+        }    
+        return dp[i] = memo(i+1, n, dp) + memo(i+2, n, dp) + memo(i+3, n, dp); // store
+}
