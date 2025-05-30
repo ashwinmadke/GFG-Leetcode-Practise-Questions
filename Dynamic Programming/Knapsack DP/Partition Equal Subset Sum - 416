@@ -1,36 +1,32 @@
 // https://leetcode.com/problems/partition-equal-subset-sum/
 
-Recursive Solution :
-TC - O(2^n)
-SC - O(n)
+// Recursive Approach (Brute Force)
+// TC - O(2^n)
+// SC - O(n) // recursive stack space
+
 public boolean canPartition(int[] nums) {
         int n = nums.length;
-        int tot_sum = 0;
-        for(int i : nums){
-            tot_sum += i;
-        }
-        
-        if(tot_sum %2 != 0){
-            return false;
-        }
-        
-        int target = tot_sum / 2;
-        
-        return subsetSum(nums,target, n-1);
+        int totSum = 0;
+
+        for(int i : nums) // calculate whole array elements sum
+        totSum += i;
+
+        if(totSum % 2 != 0) return false; // if totSum is odd means we can't divide array
+
+        int target = totSum/2;
+
+        return subsetSum(nums,n-1, target);
     }
-    static boolean subsetSum(int[] nums, int sum, int idx){
-        if(sum == 0) return true;
-        
-        if(idx < 0 || sum < 0) return false;
-        
-        // possible conditions
-        // include
-        // exclude
-        
-        if(subsetSum(nums, sum - nums[idx], idx-1)){
-            return true;
-        }
-        return subsetSum(nums, sum, idx-1);
+    private static boolean subsetSum(int[] arr, int i, int target){
+        // base case
+        if(target == 0) return true; // means we found 1 valid subset
+
+        if(i < 0 || target < 0) return false; // if index out of bound or target is -ve return false
+   
+        boolean include = subsetSum(arr, i-1, target - arr[i]); //include
+        boolean exclude = subsetSum(arr,i-1, target);  //exclude
+
+        return include || exclude;
     }
 
 // Top Down Approach :
