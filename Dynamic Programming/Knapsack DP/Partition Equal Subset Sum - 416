@@ -29,45 +29,35 @@ public boolean canPartition(int[] nums) {
         return include || exclude;
     }
 
-// Top Down Approach :
+// Top Down Approach : Memoization
 // TC - (n * target)
-// SC - (n * target)
+// SC - (n * target) + recursive stack
 
 public boolean canPartition(int[] nums) {
         int n = nums.length;
-        int tot_sum = 0;
-        for(int i : nums){
-            tot_sum += i;
-        }
-        
-        if(tot_sum %2 != 0){
-            return false;
-        }
-        
-        int target = tot_sum / 2;
-        int[][] dp = new int[n+1][target+1];
-        for(int[] row : dp){
-            Arrays.fill(row,-1);
-        }
-        return subsetSum(nums,target, n-1, dp);
+        int totSum = 0;
+
+        for(int i : nums) // calculate whole array elements sum
+        totSum += i;
+
+        if(totSum % 2 != 0) return false; // if totSum is odd means we can't divide array
+
+        int target = totSum/2;
+        Boolean[][] dp = new Boolean[n][target + 1];
+
+        return subsetSum(nums,n-1, target,dp);
     }
-    static boolean subsetSum(int[] nums, int sum, int idx, int[][] dp){
-        int n = nums.length;
-        if(sum == 0) return true;
+    private static boolean subsetSum(int[] arr, int i, int target,Boolean[][] dp){
+        // base case
+        if(target == 0) return true; // means we found 1 valid subset
+
+        if(i < 0 || target < 0) return false; // if index out of bound or target is -ve return false
+
+        //already calculated
+        if(dp[i][target] != null) return dp[i][target];
         
-        if(idx < 0 || sum < 0) return false;
-        
-        // if already calculated
-        if(dp[idx][sum] != -1){
-            return dp[idx][sum] == 1;
-        }
-        
-         // Include current element in subset or skip it
-        
-        boolean include = subsetSum(nums, sum - nums[idx], idx-1, dp);    
-        boolean exclude = subsetSum(nums, sum, idx-1,dp);
-        
-        // store the result & return
-        dp[idx][sum] = (include || exclude) ? 1 : 0;
-        return dp[idx][sum] == 1;
+        boolean include = subsetSum(arr, i-1, target - arr[i],dp); //include
+        boolean exclude = subsetSum(arr,i-1, target,dp);  //exclude
+
+        return dp[i][target] =  include || exclude; 
     }
