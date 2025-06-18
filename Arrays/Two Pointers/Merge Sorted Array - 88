@@ -17,33 +17,22 @@ class Solution {
 
 //two pointers approach
 //tc - O(m+n), sc - O(1)
-    // 1. pointer1 will point to valid index of array1 and pointer2 will point to end of array2
-    // 2. and we will take another pointer i that will point to end of array1
-    // 3. we will start comparing values at p1 and p2 and put it accordingly, loop untill there is element in array2
-    // 4. if p2 value is greater than of p1's value than put p2's value at ith index and decrement p2 and i and repeat same untill condition is true
-    // 5. if p1 value is greater than p2's value then put p1's value at ith index and decrement i and p1 both
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int i = m-1;
+        int j = n-1;
+        int k = m+n-1;
 
-    public void mergeArray(int[] nums1, int m, int[] nums2, int n){
-        // use two pointers approach
-        int p1 = m-1;// nums1 ke valid index ko point karega
-        int p2 = n-1; // nums2 ke end ko point karega
-        int i = m+n-1;
-
-        // jab tak nums2 me elements hai and p2 greater or equal hai 0th index se
-        while(p2 >= 0){
-            //yadi p1 greater or equal hai 0th index se and p1 ki value p2 ki value se greater hai to
-            // p1 ki value i ke jgh rakh do aur p1, i ko decrement kardo 1 se
-            if(p1 >= 0 && nums1[p1] > nums2[p2]){
-                nums1[i] = nums1[p1];
-                p1--;
-                i--;
+        //merging from end
+        while(i >= 0 && j >= 0){
+            if(nums1[i] > nums2[j]){
+                nums1[k--] = nums1[i--];
             }
-            //yadi p2 ki value p1 ki value se badi hai to , i ke jgh p2 ki value rakh do
-            // aur p2 , i ko decrement kardo 1 se
-            else {
-                nums1[i] = nums2[p2];
-                p2--;
-                i--;
+            else{
+                nums1[k--] = nums2[j--];
             }
         }
+        //copy remaining elements from nums2
+        while( j >= 0){
+            nums1[k--] = nums2[j--];
+        }       
     }
