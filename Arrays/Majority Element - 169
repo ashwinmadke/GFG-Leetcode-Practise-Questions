@@ -22,4 +22,23 @@ public int majorityElement(int[] nums) {
         return -1;
     }
 
+Better Approach -
+Traverse the array, update count in a hashmap. Return element with frequency > n/2.
+TC - O(n)
+SC - O(n)
+
+public int majorityElement(int[] nums) {
+       int n = nums.length;
+       HashMap<Integer, Integer> freqmap = new HashMap<>();
+
+       for(int i : nums){
+        freqmap.put(i, freqmap.getOrDefault(i, 0) + 1);
+
+            if(freqmap.get(i) > n/2){
+                return i;
+            }
+       }
+       return -1;
+    }
+
 
