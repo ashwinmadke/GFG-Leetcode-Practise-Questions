@@ -1,0 +1,94 @@
+// https://leetcode.com/problems/4sum/description/
+
+Brute force -
+Try every combination of 4 elements using 4 nested loops.
+For each combination, check if the sum is equal to the target.
+To avoid duplicates, store the sorted quadruplets in a Set.
+
+TC - O(n^4)
+SC - O(k)
+
+public List<List<Integer>> fourSum(int[] nums, int target) {
+    int n = nums.length;
+    Set<List<Integer>> set = new HashSet<>();
+
+    for (int i = 0; i < n - 3; i++) {
+        for (int j = i + 1; j < n - 2; j++) {
+            for (int k = j + 1; k < n - 1; k++) {
+                for (int l = k + 1; l < n; l++) {
+                    long sum = (long)nums[i] + nums[j] + nums[k] + nums[l];
+                    if (sum == target) {
+                        List<Integer> quad = Arrays.asList(nums[i], nums[j], nums[k], nums[l]);
+                        Collections.sort(quad);
+                        set.add(quad);  // set handles duplicates
+                    }
+                }
+            }
+        }
+    }
+
+    return new ArrayList<>(set);
+}
+
+
+Optimal Approach - 
+Sorting + Two Pointers
+
+Sort the array.
+Fix two elements with two nested loops → i, j.
+Use two pointers (left, right) for the remaining two elements.
+Skip duplicates for i, j, left, and right.
+
+TC - O(n^3)
+SC - O(n)
+Aux space - O(1)
+
+public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        int n = nums.length;
+        Arrays.sort(nums);
+
+        for (int i = 0; i < n - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue; // skip duplicate i
+
+            for (int j = i + 1; j < n - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1])
+                    continue; // skip duplicate j
+
+                int left = j + 1;
+                int right = n - 1;
+
+                while (left < right) {
+
+                    //long to avoid overflow
+                    long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];
+
+                    // 3 conditions
+                    //sum < target
+                    if (sum < target)
+                        left++;
+
+                    // sum > target
+                    else if (sum > target)
+                        right--;
+
+                    // sum == target
+                    else {
+                        result.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
+
+                        while (left < right && nums[left] == nums[left + 1])
+                            left++; // skip duplicate left
+                        while (left < right && nums[right] == nums[right - 1])
+                            right--;//skip duplicate right
+
+                        left++;
+                        right--;
+                    }
+                }
+
+            }
+
+        }
+        return result;
+    }
