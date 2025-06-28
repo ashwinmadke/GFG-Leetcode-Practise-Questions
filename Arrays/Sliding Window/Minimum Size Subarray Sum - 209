@@ -23,3 +23,30 @@ public int minSubArrayLen(int target, int[] nums) {
         }
         return minLen == Integer.MAX_VALUE ? 0 : minLen;
 }
+
+
+Optimal Approach - Sliding Window
+Idea - Do pointers ka use karke ek window banao. end pointer ko aage badhao taaki sum badhe, 
+aur jaise hi sum target ya usse zyada ho jaaye, start pointer ko aage badhaakar window chhoti karne ki koshish karo taaki minimum length mile.
+TC - O(n)
+SC - O(1)
+
+public int minSubArrayLen(int target, int[] nums) {
+        
+        int n = nums.length;
+        int minLen = Integer.MAX_VALUE;
+        int sum = 0;
+        int start = 0;
+
+        for(int end =0; end<n; end++){
+            sum += nums[end]; // add curr val into sum
+
+            //jab tak sum >= target se
+            while(sum >= target){
+                minLen = Math.min(minLen, end - start + 1);
+                sum -= nums[start];
+                start++;
+            }
+        }
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+}  
