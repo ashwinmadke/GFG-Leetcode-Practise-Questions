@@ -48,29 +48,31 @@ If the characters to change (window size - max frequency) are more than k, move 
 Keep updating the maximum window size and return it in the end.
 
 public int characterReplacement(String s, int k) {
-        int[] freq = new int[26];
-        int left = 0;
+        int maxLen = 0;
         int maxFreq = 0;
-        int maxWindow = 0;
+        int start = 0; // window ka start pointer
+        int[] count = new int[26]; // A-Z characters ka frequency count ke liye
 
-        for (int right = 0; right < s.length(); right++) {
-            // update the frequency of curr character
-            freq[s.charAt(right) - 'A']++;
+        for (int end = 0; end < s.length(); end++) {
 
-            // update the max frequency
-            maxFreq = Math.max(maxFreq, freq[s.charAt(right) - 'A']);
+            // curr character ka count update karo
+            int idx = s.charAt(end) - 'A';
+            count[idx]++;
 
-            int windowSize = right - left + 1;
+            // update max frequency -> windowSize me sabse jyda repeat hone wala character
+            maxFreq = Math.max(maxFreq, count[idx]);
 
-            // if windowSize - maxFreq > k,
-            // then shrink the window
-            if (windowSize - maxFreq > k) {
-                freq[s.charAt(left) - 'A']--;
-                left++;
+            int windowLen = end - start + 1;
+            int changesNeeded = windowLen - maxFreq;
+
+            // shrink window if needed
+            if (changesNeeded > k) {
+                count[s.charAt(start) - 'A']--;
+                start++;
+                windowLen = end - start + 1; // update windowLen after shrinking
             }
-
-            windowSize = right - left + 1;
-            maxWindow = Math.max(maxWindow, windowSize);
+            // update maxLen every time
+            maxLen = Math.max(maxLen, windowLen);
         }
-        return maxWindow;
+        return maxLen;
     }
