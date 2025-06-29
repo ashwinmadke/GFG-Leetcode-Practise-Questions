@@ -3,36 +3,42 @@
 /************************************************************ Brute Force Approach ************************************************/
 
 Steps:
-Iterate over all possible substrings.
-Count the frequency of characters in the substring.
-Calculate how many replacements are needed to make all characters the same.
-If replacements ≤ k, update the max length.
+Generate all possible substrings, and for each substring calculate the frequency of each character.
+If number of changes needed to convert the substring to all same characters is ≤ k, I update max length.
 
-TC - O(n^2)
+TC - O(n^3)
 SC - O(1)
 
-
 public int characterReplacement(String s, int k) {
-        int n = s.length();
-        int maxLength = 0;
+       int maxLen = 0;
 
-        // Iterate over all possible start point of substring
-        for (int left = 0; left < n; left++) {
-            int[] freq = new int[26];
-            int maxFreq = 0;
+        //start index for substring
+        for(int i=0; i<s.length(); i++){
 
-            // Iterate over all possible end point of substring
-            for (int right = left; right < n; right++) {
-                freq[s.charAt(right) - 'A']++;
-                maxFreq = Math.max(maxFreq, freq[s.charAt(right) - 'A']);
+            //end index j (substring end)
+            for(int j=i; j<s.length(); j++){
 
-                if ((right - left + 1) - maxFreq <= k) {
-                    maxLength = Math.max(maxLength, right - left + 1);
+                //frequency array for each substring
+                int[] freq = new int[26];
+                int maxFreq = 0;
+
+                // count frequency by iterating from i to j
+                for(int p=i; p<= j; p++){
+                    int idx = s.charAt(p) - 'A';
+                    freq[idx]++;
+                    maxFreq = Math.max(maxFreq, freq[idx]);
                 }
 
+                int windowLen = j-i+1;
+                int changesNeeded = windowLen - maxFreq;
+
+                // if changesNeeded is less than or equal k, than update maxLen
+                if(changesNeeded <= k){
+                    maxLen = Math.max(maxLen,windowLen);
+                }
             }
         }
-        return maxLength;
+        return maxLen; 
     }
 
 /************************************************************ Optimal Approach ************************************************/
