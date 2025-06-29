@@ -1,10 +1,8 @@
 // https://leetcode.com/problems/longest-repeating-character-replacement/
 
-/************************************************************ Brute Force Approach ************************************************/
-
-Steps:
-Generate all possible substrings, and for each substring calculate the frequency of each character.
-If number of changes needed to convert the substring to all same characters is ≤ k, I update max length.
+Brute Force : 
+Idea - Generate all possible substrings, and for each substring calculate the frequency of each character.
+       If number of changes needed to convert the substring to all same characters is ≤ k, I update max length.
 
 TC - O(n^3)
 SC - O(1)
