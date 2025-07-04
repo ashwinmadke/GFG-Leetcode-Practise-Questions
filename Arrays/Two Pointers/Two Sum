@@ -1,6 +1,7 @@
 // https://leetcode.com/problems/two-sum/
 
-/************************************************************ Brute Force Approach ************************************************/
+Approach - Brute Force Approach 
+Idea - Try all pairs using nested loops
 
 TC - O(n^2)
 SC - O(1)
@@ -9,12 +10,12 @@ public int[] twoSum(int[] nums, int target) {
         int n = nums.length;
         for(int i=0; i<n-1; i++){ // outer loop will pick the first number
             for(int j=i+1; j<n; j++){ // inner loop will pick the second number
-                if(nums[i] + nums[j] == target){ // // Check if their sum equals the target
-                   return  new int[]{i,j}; // if yes return the indices of the pair
+                if(nums[i] + nums[j] == target){ //Check if their sum equals to target
+                   return  new int[]{i,j}; // return indices of the pair
                 }
             }
         }
-        return new int[]{}; // if no pair found return empty array
+        return new int[]{}; // no valid pair found
 }
 
 
