@@ -1,8 +1,8 @@
 // https://leetcode.com/problems/maximum-average-subarray-i/
 
 Brute Force :
-Idea - Try all possible pairs of k length and keep track of maxSum,in the end return maxSum/k.
-TC - O(n*k)
+Idea - Try all possible subarrays of size k. For each, calculate the sum and keep track of the maximum sum found. In the end, return maxSum / k.
+TC - O(n*k) , For each starting index, we traverse k elements.
 SC - O(1)
 
 public static double findMaxAverage(int[] nums, int k) {
@@ -27,7 +27,10 @@ public static double findMaxAverage(int[] nums, int k) {
     }
 
 Optmial Approach - Sliding window
-TC - O(n)
+Idea - Use a sliding window of size k. First, compute the sum of the first k elements. Then slide the window by subtracting the element going out and adding the new one coming in.
+Keep updating the max sum.
+
+TC - O(n) ,  Each element is added and removed from the window exactly once.
 SC - O(1)
 
 public double findMaxAverage(int[] nums, int k) {
