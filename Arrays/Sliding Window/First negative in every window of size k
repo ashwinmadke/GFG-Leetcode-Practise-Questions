@@ -1,0 +1,68 @@
+// https://www.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1
+
+Brute Approach :
+Idea - Try all possible window of size k using nested loop and in each possible window whenever first -ve element is found add it to result, if no negative add 0 to result.
+TC - O(n*k)
+SC - O(n)
+
+public static List<Integer> firstNegativeBrute(int[] arr, int k){
+        int n = arr.length;
+        List<Integer> result = new ArrayList<>();
+
+        for(int i=0; i<=n-k; i++){
+            boolean foundNegative = false;
+            for(int j=i; j<i+k; j++){
+                if(arr[j] < 0){
+                    result.add(arr[j]);
+                    foundNegative = true;
+                    break;
+                }
+            }
+            if(!foundNegative){
+                result.add(0);
+            }
+        }
+        return result;
+    }
+
+Optimal Approach :
+Idea - Use Sliding Window + Queue to efficiently find the first negative number in every window of size k.
+TC - O(n)
+SC - O(n)
+
+static List<Integer> firstNegInt(int arr[], int k) {
+        // write code here
+       int n = arr.length;
+        Queue<Integer> queue = new LinkedList<>();
+        List<Integer> result = new ArrayList<>();
+        int i = 0;
+        int j = 0;
+
+        while (j<n){
+            //step 1 : check if curr element is -ve add it to queue
+            if(arr[j] < 0){
+                queue.offer(j);
+            }
+            // step 2 : check window size
+            if(j-i+1 < k){
+                j++;// expand window
+            }
+            else if(j-i+1 == k){
+                // Step 3 : add result
+                if(!queue.isEmpty()){
+                    result.add(arr[queue.peek()]); // first -ve element in the window
+                }
+                else {
+                    result.add(0);
+                }
+
+                //step 4 : check curr element is same as queue front, if yes, remove from queue
+                if(!queue.isEmpty() && queue.peek() == i){
+                    queue.poll(); // remove -ve element from queue (outgoing)
+                }
+                i++;
+                j++;
+            }
+        }
+        return result;
+    }
