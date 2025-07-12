@@ -1,0 +1,66 @@
+// https://www.geeksforgeeks.org/problems/maximum-of-all-subarrays-of-size-k3101/1
+
+Brute :
+Idea - Generate all k size subarray and keep track of max value in each subarray, store that max value in result array and repeat same until all sub array processed.
+
+TC - O(n*k)
+SC - O(n)
+
+static ArrayList<Integer> maxOfSubarraysBrute(int[] arr, int k) {
+        int n = arr.length;
+        ArrayList<Integer> result = new  ArrayList<>(); //  to store ans
+
+        for(int i=0; i<n-k+1; i++){
+            int max = Integer.MIN_VALUE;
+            for(int j=i; j<i+k; j++){
+                max = Math.max(max, arr[j]);
+            }
+            result.add(max);
+        }
+        return result;
+}
+
+Optimal :
+Idea - use deque to store indices in decreasing order of values, for each element remove smaller values from back and add current index, 
+once window size becomes k, add front element as max to result and slide window by removing out-of-window indices.
+
+TC - O(n)
+SC - O(k)
+
+static ArrayList<Integer> maxOfSubarraysOptimal(int[] arr, int k){
+        int n = arr.length;
+        ArrayList<Integer> result = new  ArrayList<>(); //  to store ans
+        Deque<Integer> dq = new LinkedList<>();
+
+        int i =0;
+        int j =0;
+        while (j < n){
+            //remove all smaller element from back of dequeue
+            //agar dq empty nhi hai and dq ke last me rkha ele curr ele se chota hai to remove
+            while (!dq.isEmpty() && arr[dq.peekLast()] < arr[j]){
+                dq.pollLast();
+            }
+            dq.offerLast(j); // add curr index
+
+            //check if window size is less than k, increment j
+            if(j-i+1 < k){
+                j++;
+            }
+            //when window size is == k
+            // to dq ka front element he max value hai use result me add kardo
+            else if(j-i+1 == k){
+                result.add(arr[dq.peekFirst()]);
+
+                //index ko remove karo agr window se bahar ja rha hai to
+                //agar curr element dq ke first se match krta hai to
+                if(dq.peekFirst() == i){
+                    dq.pollFirst();
+                }
+                i++;
+                j++;
+            }
+
+        }
+        return result;
+  }
+
