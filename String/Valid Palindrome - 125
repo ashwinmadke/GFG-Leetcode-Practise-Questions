@@ -1,21 +1,45 @@
 // https://leetcode.com/problems/valid-palindrome/description/
 
-public boolean isPalindrome(String s) {
-        //Step1- convert string into lowercase & remove all non-alpha numeric character
-        String str = s.toLowerCase().replaceAll("[^a-zA-Z0-9]","");
+Brute Force :
+Idea - After normalizing the string. compare with its reverse, if both strings are same return true else false.
+TC - O(n)
+SC - O(n)
 
-        //Step2- initialize two pointers one at start of string & other at end of string
+public boolean isPalindrome(String s){
+        // Step 1 : Normalize the string
+        StringBuilder cleaned = new StringBuilder();
+        for(char c : s.toCharArray()){
+            if(Character.isLetterOrDigit(c)){
+                cleaned.append(Character.toLowerCase(c));
+            }
+        }
+
+        String cleanedStr = cleaned.toString(); // store it
+        String reversedStr = cleaned.reverse().toString(); // reverse it
+
+        return cleanedStr.equals(reversedStr); // compare both
+}
+
+
+Optimal Approach - Two Pointers
+Idea - First, clean the string by removing non-alphanumeric characters and converting to lowercase, 
+then use two pointers from start and end to compare characters, returning false if any mismatch is found.
+TC - O(n)
+SC - O(1)
+
+public boolean isPalindrome(String s) {
+       String str = s.toLowerCase().replaceAll("[^a-zA-Z0-9]","");
+
         int i = 0;
         int j = str.length()-1;
 
-        //Step3- iterate through string from both the ends.
         while (i < j){
-            //Step4 - compare characters at position i,j
+            //if any mismatch return false
             if(str.charAt(i) != str.charAt(j)){
-                return false; // if characters are not same , means not a valid palindrome return false
+                return false;
             }
-            i++; // increment i
-            j--; // decrement j
+            i++;
+            j--;
         }
-        return true; // step5- If the loop completes without finding any mismatch, return true indicating it's a palindrome
+        return true;
     }
