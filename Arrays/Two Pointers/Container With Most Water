@@ -1,0 +1,49 @@
+// https://leetcode.com/problems/container-with-most-water/description/
+
+Brute Approch : 
+Idea - use 2 nested loops to check every possible pair of container and update maxwater at each level
+TC - O(n^2)
+SC - O(1)
+
+public int maxArea(int[] height) {
+    int n = height.length;
+    int maxWater = 0;
+
+    // check every possible pair
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            int currWater = Math.min(height[i], height[j]) * (j - i);
+            maxWater = Math.max(maxWater, currWater);
+        }
+    }
+
+    return maxWater;
+}
+
+
+Optimal Approach :  Two pointers
+Idea - Use two pointers one at start and another at end of array. Keep moving pointer inward with lowest height and keep updating maxWater at each level by comparing with currWater.
+TC - O(n)
+SC - O(1)
+
+public int maxArea(int[] height) {
+        int n = height.length;
+        int left = 0;
+        int right = n-1;
+        int maxWater = 0;
+
+        // water stored between the two containers
+        // height[left] and height[right]
+        while(left < right){
+            int currWater = Math.min(height[left], height[right]) * (right - left);
+            maxWater = Math.max(currWater, maxWater);
+
+            if(height[left] < height[right]){
+                left++;
+            }
+            else{
+                right--;
+            }
+        }
+        return maxWater;
+  }
