@@ -1,0 +1,75 @@
+// https://leetcode.com/problems/3sum/description/
+
+Brute Force : 
+Idea - use 3 nested loops to check every triplets and use set to avoid duplicates.
+TC - O(n^3)
+SC - O(k), where k is no of triplets
+
+public List<List<Integer>> threeSum(int[] nums) {
+        Set<List<Integer>> resultSet = new HashSet<>();
+        int n = nums.length;
+
+        // Check every triplet
+        for (int i = 0; i < n - 2; i++) {
+            for (int j = i + 1; j < n - 1; j++) {
+                for (int k = j + 1; k < n; k++) {
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        // Sort triplet to handle duplicates before adding to set
+                        List<Integer> triplet = Arrays.asList(nums[i], nums[j], nums[k]);
+                        Collections.sort(triplet);
+                        resultSet.add(triplet);
+                    }
+                }
+            }
+        }
+
+        // Convert set to list 
+        return new ArrayList<>(resultSet);
+  }
+
+
+Optimal : Sorting + Two Pointers
+Idea - Sort the array, fix one element, and use two pointers to find the other two such that their sum is equal to -nums[i]
+TC - O(n^2)
+SC - O(1)
+
+public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        int n = nums.length;
+
+        //sort the array
+        Arrays.sort(nums);
+
+        // fix first number and apply two sum on remaining array
+        for(int i=0; i<n-2; i++){
+            // Skip duplicates for i
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int left = i+1;
+            int right = n-1;
+
+            //apply two pointers
+            while(left < right){
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if(sum == 0){
+                    result.add(Arrays.asList(nums[i],nums[left], nums[right]));
+                    left++;
+                    right--;
+
+                    //skip duplicates for left and right
+                    while(left < right && nums[left] == nums[left-1]) left++;
+                    while(left < right && nums[right] == nums[right+1]) right--;
+                }
+                else if(sum < 0){
+                    left++;
+                }
+                else {
+                    right--;
+                }
+                 
+            }
+        }
+        return result;
+    }
+    
