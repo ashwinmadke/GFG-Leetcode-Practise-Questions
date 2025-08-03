@@ -4,7 +4,7 @@ Optimal Approach
 Idea - Use sliding window with two pointers and a hash set/map to track characters in the current window; 
 expand the right pointer and shrink the left when a duplicate is found, keeping track of the maximum length.
 TC - O(N)
-SC - O(N)
+SC - O(K)
 
 public int lengthOfLongestSubstring(String s) {
         Set<Character> seen = new HashSet<>();
