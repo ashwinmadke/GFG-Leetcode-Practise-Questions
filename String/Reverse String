@@ -1,0 +1,32 @@
+// https://www.geeksforgeeks.org/problems/reverse-a-string/1
+
+Optimal Approach - Using two pointers
+Idea - Convert string to char array ,take two pointers & start swaping charcaters from both end until pointer1 < pointer2.
+TC - O(n)
+SC - O(1)
+
+public static String reverseString(String s) {
+        // code here
+        char[] arr = s.toCharArray();
+        int left = 0, right = s.length()-1;
+        
+        while(left < right){
+            char temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            
+            left++;
+            right--;
+        }
+        return new String(arr);
+    }
+
+****************************************************************************************************************************************
+Using inbuilt function
+
+ public static String reverseString(String s) {
+        // code here
+        String reversed = new StringBuilder(s).reverse().toString();
+        return reversed;
+    }
+
