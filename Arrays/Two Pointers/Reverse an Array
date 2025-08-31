@@ -1,5 +1,6 @@
 // https://www.geeksforgeeks.org/problems/reverse-an-array/1
 
+*********************************************************************************************************************
 Brute Approach - Using temp array
 // TC - O(n)
 // SC - O(1)
@@ -20,3 +21,44 @@ public void reverseArray(int arr[]) {
         }
         
     }
+
+*********************************************************************************************************************
+Optimal Approach - Using Two pointers
+Idea - Take two pointers and place left at start and right at end position and keep on swapping elements until left < right.
+TC - O(n)
+SC - O(1)
+public void reverseArray(int arr[]) {
+        int n = arr.length;
+       int left = 0;
+       int right = n-1;
+       
+       while(left < right){
+           //swap
+           int temp = arr[left];
+           arr[left] = arr[right];
+           arr[right] = temp;
+
+           left++;
+           right--;
+       }
+        
+    }
+
+*********************************************************************************************************************
+Swapping without using 3rd variable
+Idea - Use XOR 
+TC - O(n)
+SC - O(1)
+public void reverseArray(int arr[]) {
+    int left = 0, right = arr.length - 1;
+
+    while (left < right) {
+        // swap arr[left] and arr[right] using XOR
+        arr[left] = arr[left] ^ arr[right];
+        arr[right] = arr[left] ^ arr[right];
+        arr[left] = arr[left] ^ arr[right];
+
+        left++;
+        right--;
+    }
+}
