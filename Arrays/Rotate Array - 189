@@ -1,5 +1,7 @@
 // https://leetcode.com/problems/rotate-array/description/
 
+********************************************************************************************************************************************
+
 Brute Approach - Using temp array
 Idea - take temp array of same size to original array, fill last k elements and then remaining to temp. In the end copy back to original.
 TC - O(n)
@@ -24,4 +26,35 @@ public void rotate(int[] arr, int k) {
             arr[i] = temp[i];
         }
         
+    }
+
+********************************************************************************************************************************************
+
+Optimal Approach - Using 3 reversal (In- place)
+Idea - reverse entire array, then first k elements, then last n-k elements.
+TC - O(n)
+SC - O(1)
+
+public void rotate(int[] arr, int k) {
+        int n = arr.length;
+        k = k % n; 
+        
+        //reverse complete array
+        reverse(arr,0,n-1);
+        
+        //reverse first k elements
+        reverse(arr,0, k-1);
+        
+        //reverse n-k elements
+        reverse(arr,k,n-1);
+    }
+    public void reverse(int[] arr, int left, int right){
+        while(left < right){
+            int temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            
+            left++;
+            right--;
+	    }
     }
