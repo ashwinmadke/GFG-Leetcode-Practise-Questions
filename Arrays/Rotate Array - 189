@@ -1,0 +1,27 @@
+// https://leetcode.com/problems/rotate-array/description/
+
+Brute Approach - Using temp array
+Idea - take temp array of same size to original array, fill last k elements and then remaining to temp. In the end copy back to original.
+TC - O(n)
+SC - O(n)
+
+public void rotate(int[] arr, int k) {
+        int n = arr.length;
+        k = k % n; 
+        int[] temp = new int[n];
+        
+        // copy the last k elements
+        for(int i=0; i<k; i++){
+            temp[i] = arr[n-k+i];             
+        }
+        
+        //copy remaining elements from original array
+        for(int i=k; i<n; i++){
+            temp[i] = arr[i-k];
+        }
+        //copy back temp elements to orgininal array
+        for(int i=0; i<n; i++){
+            arr[i] = temp[i];
+        }
+        
+    }
