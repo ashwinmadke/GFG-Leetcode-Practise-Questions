@@ -26,24 +26,22 @@ public void moveZeroes(int[] nums) {
         }
     }
 
-Optimal - Two Pointers
-Idea - Use two pointers; whenever you encounter a zero, skip it, otherwise swap it with the other pointer. In the end, all zeros will move to the end.
+Optimal Approach -Using Two Pointers
+Idea - Take 2 pointers, Iterate over array , if element found is non zero swap it with first pointer and increment j.
 TC - O(n)
 SC - O(1)
 
 
 public void moveZeroes(int[] nums) {
         int n = nums.length;
-        int i = 0;
-        int j = 0;
-
-        while(i < n){
+        int j = 0; //  position for next non zero
+        
+        for(int i=0; i<n; i++){
             if(nums[i] != 0){
                 int temp = nums[i];
                 nums[i] = nums[j];
                 nums[j] = temp;
                 j++;
             }
-            i++;
         }
     }
