@@ -64,14 +64,14 @@ Approach -
 
 public int[] twoSum(int[] nums, int target) {
         int n = nums.length;
-       //map to store the numbers & their indices
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(int i=0;i<n; i++){
-            int complement = target-nums[i]; // calculate complement
-            if(map.containsKey(complement)){ // check if complement exists in map
-                return new int[] {map.get(complement),i}; // if found return indices
+        HashMap<Integer, Integer> map = new HashMap<>(); // to store nums value & index
+
+        for (int i = 0; i < n; i++) {
+            int compliment = target - nums[i];
+            if (map.containsKey(compliment)) {
+                return new int[] { map.get(compliment), i };
             }
-            map.put(nums[i],i );// add curr number & its index into map
+            map.put(nums[i], i);
         }
-        return new int[] {}; // if no solution found , return empty array
+        return new int[] {};
     }
