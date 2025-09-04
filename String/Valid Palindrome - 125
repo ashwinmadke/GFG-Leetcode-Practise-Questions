@@ -1,5 +1,6 @@
 // https://leetcode.com/problems/valid-palindrome/description/
 
+******************************************************************************************************************************************************
 Brute Force :
 Idea - After normalizing the string. compare with its reverse, if both strings are same return true else false.
 TC - O(n)
@@ -20,7 +21,7 @@ public boolean isPalindrome(String s){
         return cleanedStr.equals(reversedStr); // compare both
 }
 
-
+******************************************************************************************************************************************************
 Optimal Approach - Two Pointers
 Idea - First, clean the string by removing non-alphanumeric characters and converting to lowercase, 
 then use two pointers from start and end to compare characters, returning false if any mismatch is found.
@@ -40,6 +41,35 @@ public boolean isPalindrome(String s) {
             }
             i++;
             j--;
+        }
+        return true;
+    }
+
+******************************************************************************************************************************************************
+
+Memory Efficient - 
+
+public boolean isPalindrome(String s) {
+        int left = 0;
+        int right = s.length()-1;
+
+        while(left < right){
+            //skip non-alpha from left side
+            while(left < right && !Character.isLetterOrDigit(s.charAt(left))){
+                left++;
+            }
+
+            //skip non-alpha from right side
+            while(left < right && !Character.isLetterOrDigit(s.charAt(right))){
+                right--;
+            }
+
+            if(Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))){
+                return false;
+            }
+            left++;
+            right--;
+
         }
         return true;
     }
