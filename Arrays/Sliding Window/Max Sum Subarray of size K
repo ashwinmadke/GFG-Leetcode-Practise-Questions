@@ -1,0 +1,48 @@
+// https://www.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1
+
+********************************************************************************************************************************************************************
+Brute Approach - Use nested loops
+Idea - use nested loops to calculate each subarray sum.(outrloop fix the start element of subarray, and inner loop calculates sum till next k elements)
+TC - O(n*k)
+SC - O(1)
+
+public int maxSubarraySum(int[] nums, int k) {
+        // Code here
+        int n = nums.length;
+        int maxSum = 0;
+        
+        for(int i=0; i<=n-k; i++){
+            int currSum = 0;
+            for(int j=i; j<i+k; j++){
+                currSum += nums[j];
+            }
+            maxSum = Math.max(currSum , maxSum);
+        }
+        return maxSum;
+    }
+
+********************************************************************************************************************************************************************
+Optimal Approach - Use Sliding Window
+Idea - Calculate initial window sum, update window sum to max sum , while sliding window add next element to window sum and subtract the first added element to window.
+TC - O(n)
+SC - O(1)
+
+public int maxSubarraySum(int[] nums, int k) {
+        int n = nums.length;
+        
+        //step 1 : initial window sum
+        int wSum = 0;
+        for(int i=0; i<k; i++){
+            wSum += nums[i];
+        }
+        // step 2 : update wSum to maxSum
+        int maxSum = wSum;
+        
+        // step 3 : slide the window by adding next element and removing first added element to window
+        for(int i=k; i<n; i++){
+            wSum += nums[i] - nums[i-k];
+            maxSum = Math.max(wSum , maxSum);
+        }
+        return maxSum;
+        
+    }
