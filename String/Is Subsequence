@@ -1,0 +1,22 @@
+// https://leetcode.com/problems/is-subsequence/description/
+
+***********************************************************************************************************************************************************************
+Optimal Approach - Two Pointers
+Idea - Take 2 pointers, start iterating over both strings and move the first pointer only when characters match, always increment second pointer. If first pointer
+reaches end, means string1 is subsequence of string2.
+TC - O(n)
+SC - O(1)
+
+public boolean isSubsequence(String s, String t) {
+        int i = 0; // for s
+        int j = 0; // for t
+
+        while (i < s.length() && j < t.length()) {
+            if (s.charAt(i) == t.charAt(j)) {
+                i++;
+            }
+            j++;
+        }
+
+        return i == s.length(); // all chars match
+    }
