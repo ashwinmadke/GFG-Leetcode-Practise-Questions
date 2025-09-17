@@ -1,5 +1,37 @@
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 
+*******************************************************************************************************************************************************************
+Brute Approach 
+Idea - Generate all substrings, out of all substrings whichever have the max length with unique characters is ans.
+TC - O(n^3)
+        : O(n^2) -> generating substrings
+        : O(n) -> checking uniquness
+SC - O(n), bcoz of set
+
+public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        int maxLen = 0;
+
+        //step 1: generate all substring
+        for (int i = 0; i < n; i++) {
+
+            //step 2: check for unique character
+            Set<Character> uniqueSet = new HashSet<>();
+
+            for (int j = i; j < n; j++) {
+                char c = s.charAt(j);
+                if (uniqueSet.contains(c)) {
+                    break;
+                } else {
+                    uniqueSet.add(c);
+                    maxLen = Math.max(maxLen, j - i + 1); //Step 3 : update maxlength
+                }
+            }
+        }
+        return maxLen;
+    }
+
+*******************************************************************************************************************************************************************
 Optimal Approach
 Idea - Use sliding window with two pointers and a hash set/map to track characters in the current window; 
 expand the right pointer and shrink the left when a duplicate is found, keeping track of the maximum length.
