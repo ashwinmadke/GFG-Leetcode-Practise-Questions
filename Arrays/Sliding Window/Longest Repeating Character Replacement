@@ -1,45 +1,41 @@
 // https://leetcode.com/problems/longest-repeating-character-replacement/
 
-Brute Force : 
-Idea - Generate all possible substrings, and for each substring calculate the frequency of each character.
-       If number of changes needed to convert the substring to all same characters is ≤ k, I update max length.
-
-TC - O(n^3)
+********************************************************************************************************************************************************************
+Brute Approach - 
+Idea - Check all substrings, count max repeating char, see if replacements ≤ k, track max length.
+TC - O(n^2)
 SC - O(1)
 
 public int characterReplacement(String s, int k) {
-       int maxLen = 0;
+        int n = s.length();
+        int maxSubstringLen = 0;
 
-        //start index for substring
-        for(int i=0; i<s.length(); i++){
+        //Step 1: Check all substrings
+        for (int i = 0; i < n; i++) {
 
-            //end index j (substring end)
-            for(int j=i; j<s.length(); j++){
+            //Step 2: count max repeating char
+            int[] count = new int[26];
+            int maxFreq = 0; // max freq in current substring
 
-                //frequency array for each substring
-                int[] freq = new int[26];
-                int maxFreq = 0;
+            for (int j = i; j < n; j++) {
+                char currChar = s.charAt(j);
+                count[currChar - 'A']++; //increment frequency of current character
+                maxFreq = Math.max(maxFreq, count[currChar - 'A']); // update max frequency
 
-                // count frequency by iterating from i to j
-                for(int p=i; p<= j; p++){
-                    int idx = s.charAt(p) - 'A';
-                    freq[idx]++;
-                    maxFreq = Math.max(maxFreq, freq[idx]);
-                }
+                int currWindowLen = j - i + 1;
+                int replacementNeeded = currWindowLen - maxFreq;
 
-                int windowLen = j-i+1;
-                int changesNeeded = windowLen - maxFreq;
-
-                // if changesNeeded is less than or equal k, than update maxLen
-                if(changesNeeded <= k){
-                    maxLen = Math.max(maxLen,windowLen);
+                if (replacementNeeded <= k) {
+                    maxSubstringLen = Math.max(maxSubstringLen, currWindowLen);
                 }
             }
+
         }
-        return maxLen; 
+        return maxSubstringLen;
     }
 
-/************************************************************ Optimal Approach ************************************************/
+
+********************************************************************************************************************************************************************
 
 TC - O(n)
 SC - O(1)
