@@ -23,7 +23,7 @@ public int maxSubarraySum(int[] nums, int k) {
 
 ********************************************************************************************************************************************************************
 Optimal Approach - Use Sliding Window
-Idea - Calculate initial window sum, update window sum to max sum , while sliding window add next element to window sum and subtract the first added element to window.
+Idea - Calculate the sum of the first k elements and set it as max. While sliding the window, add the next element and subtract the first element of the previous window.
 TC - O(n)
 SC - O(1)
 
