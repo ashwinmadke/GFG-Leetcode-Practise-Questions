@@ -1,6 +1,6 @@
 // https://leetcode.com/problems/subarray-sum-equals-k/description/
 
-********************************************************************************************************************************************************************
+*******************************************************************************************************************************************************************
 
 Brute Approach - Nested Loops
 Idea - generate all subarrays, keep track of each subarray sum, check if sum == k, if yes increment count, in the end return count.
@@ -24,4 +24,32 @@ public int subarraySum(int[] nums, int k) {
         return count;
 }
 
-********************************************************************************************************************************************************************
+*******************************************************************************************************************************************************************
+
+Optimal Approach -Use Prefix sum + Hashmap
+Idea - 
+// use hashmap to track running sum and its frequency.
+// Iterate through array, and keep its running sum
+// check if map contains(sum - k) -> if yes update count
+// then update map with current sum and its frequency.
+// at end return count
+
+TC - O(n)
+SC - O(n)
+
+public int subarraySum(int[] nums, int k) {
+        int count = 0;
+        int sum = 0;
+        // running sum, frequency
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0,1); // 0 appears once so add it initially
+
+        for(int i : nums){
+            sum += i;
+            if(map.containsKey(sum-k)){
+                count += map.get(sum-k);
+            }
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return count;
+    }
