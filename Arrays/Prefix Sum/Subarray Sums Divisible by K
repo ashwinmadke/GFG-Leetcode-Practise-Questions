@@ -1,0 +1,24 @@
+// https://leetcode.com/problems/subarray-sums-divisible-by-k/description/
+
+*********************************************************************************************************************************************************************
+Brute Approach - Nested Loop
+Idea - Generate all subarrays and check each subarray if their sum divisible by k, increment count.
+TC - O(n^2)
+SC - O(1)
+
+public int subarraysDivByK(int[] nums, int k) {
+        int n = nums.length;
+        int count = 0;
+        for(int i=0; i<n; i++){
+            int sum = 0;
+            for(int j=i; j<n; j++){
+                sum += nums[j];
+                if(sum % k==0) count++;
+            }
+        }
+        return count;
+    }
+
+*********************************************************************************************************************************************************************
+Optimal Approach - Prefix Sum + Hashmap
+Idea - 
