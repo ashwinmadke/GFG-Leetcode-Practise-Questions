@@ -55,31 +55,34 @@ public int findMaxLength(int[] nums) {
 }
 
 *******************************************************************************************************************************************************************
+Optimal Approach - Use Map + Prefix sum
+Idea - 
+Use hashmap for tracking sum and index, initially (0,-1)
+make element of array 0 to -1 and 1 to +1,
+check if sum is already in map, update max len - map.get(sum)
+else put into map
+KeyPoint- Change 0 to -1 so that 0s and 1s balance to sum 0.
+
 TC - O(n)
 SC - O(n)
 
-Idea - Stores prefix sums in a HashMap to avoid recomputation
-public int findMaxLength(int[] nums) {
-        int n = nums.length;
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int sum = 0;
-        int maxLen = 0;
-        map.put(0,-1); // to handle edge case, when all subarray is valid
+    public int findMaxLength(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0,-1);
 
-        for(int i=0; i<n; i++){
-            if(nums[i] == 0){
-                sum += -1;
+        int maxLen=0;
+        int prefixSum = 0;
+
+        for(int i=0; i<nums.length; i++){
+            prefixSum +=(nums[i] == 0) ? -1 : 1;
+
+            if(map.containsKey(prefixSum)){
+                maxLen = Math.max(maxLen, i - map.get(prefixSum));
             }
             else{
-                sum += 1;
-            }
-
-            if(map.containsKey(sum)){
-                maxLen = Math.max(maxLen, i-map.get(sum));
-            }
-            else{
-                map.put(sum,i);
+                map.put(prefixSum, i);
             }
         }
         return maxLen;
+        
     }
