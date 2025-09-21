@@ -1,6 +1,7 @@
 // https://leetcode.com/problems/contiguous-array/description/
 
-/************************************************************ Brute Force Approach ************************************************/
+*******************************************************************************************************************************************************************
+Brute Approach
 Idea - Iterate over all possible sub-arrays and count no of 0's & 1's in each sub-array. If the count is equal update the maximum length.
 TC - O(n^2)
 SC - O(1)
@@ -9,25 +10,24 @@ public int findMaxLength(int[] nums) {
         int n = nums.length;
         int maxLen = 0;
 
-        for (int i = 0; i < n; i++) {
-            int countZero = 0;
-            int countOne = 0;
-            for (int j = i; j < n; j++) {
-                if (nums[j] == 0) {
-                    countZero++;
-                } else {
-                    countOne++;
+        for(int i=0; i<n; i++){
+            int count_0 = 0;
+            int count_1 = 0;
+            for(int j=i; j<n; j++){
+                if(nums[j] == 0){
+                    count_0++;
                 }
-
-                if (countZero == countOne) {
-                    maxLen = Math.max(maxLen, j - i + 1);
+                else{
+                    count_1++;
+                }
+                if(count_0 == count_1){
+                    maxLen = Math.max(maxLen, j-i+1);
                 }
             }
         }
-        return maxLen;
-  }
-
-/************************************************************ Other Approach ************************************************/
+        return maxLen;  
+    }
+*******************************************************************************************************************************************************************
 TC - O(n^2)
 SC - O(1)
 
@@ -54,7 +54,7 @@ public int findMaxLength(int[] nums) {
     return maxLen;
 }
 
-/************************************************************ Optimal Approach ************************************************/
+*******************************************************************************************************************************************************************
 TC - O(n)
 SC - O(n)
 
