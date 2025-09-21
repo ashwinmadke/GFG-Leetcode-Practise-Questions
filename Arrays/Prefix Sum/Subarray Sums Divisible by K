@@ -21,4 +21,23 @@ public int subarraysDivByK(int[] nums, int k) {
 
 *********************************************************************************************************************************************************************
 Optimal Approach - Prefix Sum + Hashmap
-Idea - 
+Idea - Use a HashMap to track remainder → frequency. Iterate array, update running sum, compute positive remainder. 
+If remainder seen before, add its frequency to count. Update map with current remainder. Initialize map with 0→1.
+TC - O(n)
+SC - O(n)
+
+public int subarraysDivByK(int[] nums, int k) {
+        int count = 0;
+        int prefixSum = 0;
+        // reminder , frequency
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0,1);
+
+        for(int i : nums){
+            prefixSum += i;
+            int mod = ((prefixSum % k)+ k) % k; // to handle negative reminder
+            count += map.getOrDefault(mod,0);
+            map.put(mod, map.getOrDefault(mod,0)+1);
+        }
+        return count;
+    }
