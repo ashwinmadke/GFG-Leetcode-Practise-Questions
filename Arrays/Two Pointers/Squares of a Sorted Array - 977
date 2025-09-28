@@ -1,56 +1,55 @@
 // https://leetcode.com/problems/squares-of-a-sorted-array/
 
-/************************************************************ Brute Force Approach ************************************************/
+*******************************************************************************************************************************************************************
+Brute Approach - 
+Idea - Square each element and sort the result array and return
 TC - O(nlogn)
-SC - O(1)
-
-Approach -
-1.Traverse through the array.
-2.Square each element and store it in a new array.
-3.Sort the new array & return it.
+SC - O(1), auxilary
 
 public int[] sortedSquares(int[] nums) {
-        int[] ans = new int[nums.length];
-        for (int i=0; i< nums.length; i++){
-            ans[i] = nums[i] * nums[i];
+        int n = nums.length;
+        int[] result = new int[n];
+
+        //step 1 :  Square elements
+        for(int i=0; i<n; i++){
+            result[i] = nums[i] * nums[i];
         }
-        Arrays.sort(ans);
-        return ans;
+        //step 2 : sort array & return
+        Arrays.sort(result);
+        return result;
 }
 
-/************************************************************ Two Pointer Approach ************************************************/
+*******************************************************************************************************************************************************************
+Optimal Approach - Using two pointers
+// Idea - take 2 pointers one at start & another at end of array
+// square both and check which is greater and start filling result
+// from end using k pointer, and adjust pointers accordingly and 
+// always decrement k
+// repeat until left < right
+
 TC - O(n)
-SC - O(1)
+SC - O(1), auxilary
 
-Appraoch -
-Take two pointers:
-1.one at the beginning (left) and one at the end (right) of the array.
-2.Compare the absolute values of the numbers at these two positions.
-3.Take the square of the numbers at the left and right pointers.
-4.Now Compare these squares to find the larger value & place Larger Square at the End:
-5.Place the larger square in the result array (ans) starting from the last position (pos), as the result array is filled in reverse order.
-6.Now If the left value is larger, move the left pointer inward Otherwise, move the right pointer inward.
-7.Continue comparing and placing squares until the two pointers meet.
-8.The result array (ans) will contain the squares in sorted order , return it.
+    public int[] sortedSquares(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
 
-public int[] sortedSquares(int[] nums) {
-        int[] ans = new int[nums.length];
-        int left = 0;
-        int right = nums.length-1;
-        int pos = nums.length-1;
-        while (left <= right){
-            int leftSquare = nums[left]*nums[left];
-            int rightSquare = nums[right]*nums[right];
+        int left = 0, right = n-1;
+        int k = n-1;
+
+        while(left <= right){
+            int leftSquare = nums[left] * nums[left];
+            int rightSquare = nums[right] * nums[right];
 
             if(leftSquare > rightSquare){
-                ans[pos] = leftSquare;
+                result[k] = leftSquare;
                 left++;
             }
-            else {
-                ans[pos] = rightSquare;
+            else{
+                result[k] = rightSquare;
                 right--;
             }
-            pos--;
+            k--;
         }
-        return ans;
+        return result;
     }
