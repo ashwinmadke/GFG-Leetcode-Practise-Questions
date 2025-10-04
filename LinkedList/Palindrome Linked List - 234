@@ -1,7 +1,16 @@
 // https://leetcode.com/problems/palindrome-linked-list/
 
 *********************************************************************************************************************************************************************
-Brute Approach - Using Stack
+Brute Approach 1 - Using List/array
+Idea:
+Traverse the linked list and copy all node values into an array/list.
+Use two pointers approach, one at start and one at the end of the array, and compare values.
+If all match means palindrome, else not palindrome.
+TC: O(n) — for traversing + comparing
+SC: O(n) for the list/array
+
+*********************************************************************************************************************************************************************
+Brute Approach 2- Using Stack
 Idea - 
 1.Find the middle of the list.
 2.Traverse from head to middle, pushing node values onto a stack.
