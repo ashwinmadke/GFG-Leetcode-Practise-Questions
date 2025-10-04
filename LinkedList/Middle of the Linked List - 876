@@ -1,20 +1,24 @@
 // https://leetcode.com/problems/middle-of-the-linked-list/
-// TC -> O(N)
-// SC -> O(1)
 
-Approach - Slow & Fast Ptr , by the time fast will reach end, slow will be in middle.
+**********************************************************************************************************************************************************************
+Brute Approach : Two Pass
+Idea - Count total number of nodes n, then traverse again to the n/2-th node and return it.
+TC - O(n) + O(n) = O(2n) = O(n)
+SC - O(1)
 
-class Solution {
-    public ListNode middleNode(ListNode head) {
+**********************************************************************************************************************************************************************
+Optimal Approach : Using Fast & Slow pointer - Single pass
+Idea - Use two pointers, slow moves 1 step and fast moves 2 steps. When fast reaches the end, slow will be at the middle node.
+TC - O(n)
+SC - O(1)
+
+public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
         
-        ListNode slowPtr = head;
-        ListNode fastPtr = head;
-        
-        while(fastPtr != null && fastPtr.next != null){
-            slowPtr = slowPtr.next;
-            fastPtr = fastPtr.next.next;
-        }
-        return slowPtr;
-        
-    }
+        while(fast != null && fast.next != null ){
+            slow = slow.next;
+            fast = fast.next.next;
+        } 
+        return slow;
 }
