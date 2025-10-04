@@ -1,79 +1,38 @@
 // https://leetcode.com/problems/intersection-of-two-linked-lists/
-// Reference - https://www.topcoder.com/thrive/articles/intersection-of-two-linkedlists
-// TC-> O(m*n)
-// SC-> O(1)
-// Brute Force - compare each node of the either list 1 or list 2 in any linked list, to compare need to traverse of linked List using two loop. Run two loop untill list reaches to null.
+
+**********************************************************************************************************************************************************************
+Brute Approach - 
+Idea - Compare every node of List A with every node of List B. Return the first common node.
+TC - O(m*n), SC - O(1)
+
+Better Approach - Using Hashset
+Idea - Iterate over listA and store in Hashset, and now iterate over ListB and check if any node repeats,if yes return
+else return null.
+TC - O(m+n), SC - O(n)
+
+Optimal Approach 1 - Length Difference
+Idea - count nodes in both lists, calculate difference and skip difference nodes in longer list.
+start traversing both list a step at a time, if there is intersection they will meet, else both reach null;
+TC - O(m+n), SC - O(1)
+
+Optimal Approach 2- Using Two pointers
+Idea - Take two pointers p1 for headA and p2 for headB. move pointers one step at a time, when pointer reaches null
+assign it to head of other list, if there is an intersection both will meet, if not both will reach null.
+TC - O(m+n), SC - O(1)
+
+*********************************************************************************************************************************************************************
+Code : Optimal Approach 2
 public class Solution {
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        
-        ListNode currA = headA;
-        ListNode currB = headB;
-        ListNode ans = null;
-        
-        while(currA != null){
-            currB = headB;
-            
-            while(currB != null){
-                if(currA == currB){
-                    return currA;
-                }
-                currB = currB.next;
-            }
-            currA = currA.next;
-        }
-        return ans;
-        
-    }
-}
+        if(headA == null || headB == null) return null; //edge case
 
-// Optimal Approach - take hashset put listA all elements & now check if listB elements found in hashset, if common return intersection node.
-// TC-> O(n)
-// SC-> O(n)
+        ListNode p1 = headA;
+        ListNode p2 = headB;
 
-public class Solution {
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        HashSet<ListNode> map = new HashSet<>();
-        ListNode temp = headA;
-        
-        while(temp != null){
-            // add listA items into hashset
-            map.add(temp);
-            temp = temp.next;
+        while(p1 != p2){
+          p1 = (p1 != null) ? p1.next : headB; 
+          p2 = (p2 != null) ? p2.next : headA;
         }
-        temp = headB;
-        
-        //traverse over listB & compare listB nodes with the elements of hashset, if match return node
-        while(temp != null){
-            if(map.contains(temp)) {
-                return temp;
-            }
-            temp = temp.next;
-        }
-        return temp;
-    }
-}
-
-//Most Optimal Solution - Two Pointers Approach
-//Pointer1 will point to the head of L1 and pointer2 will point to the head of L2.
-//The solution is that the intersection of the LinkedLists to the end of LinkedLists will be common, as the tail will be common in both LinkedLists.
-//So we will keep checking until pointer1 is not equal to pointer2.
-// TC-> O(n)
-// SC-> O(1)
-
-public class Solution {
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        
-        if (headA == null || headB == null)
-            return null;
-        
-        ListNode ptr1 = headA;
-        ListNode ptr2 = headB;
-        
-        while(ptr1 != ptr2){
-           ptr1 = ptr1 == null ? headB : ptr1.next;
-           ptr2 = ptr2 == null ? headA : ptr2.next;  
-            
-        }
-        return ptr1;
+        return p1;
     }
 }
