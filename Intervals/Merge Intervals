@@ -1,0 +1,35 @@
+// https://leetcode.com/problems/merge-intervals/description/
+
+public int[][] merge(int[][] intervals) {
+        int n = intervals.length;
+        // step 0: check if there is only 1 interval
+        if(n <= 1) return intervals;
+
+        // step 1: sort the intervals based on start value
+        Arrays.sort(intervals, (a,b)-> a[0]-b[0]);
+
+        // step 2: list to store merged intervals
+        List<int[]> result = new ArrayList<>();
+
+        // step 3 : take the first interval as curr
+        int[] currInterval = intervals[0];
+
+        // step 4 : iterate over remaining intervals and check,
+        // if merge can happen
+        for(int i=1; i<n; i++){
+            // if next interval ka first element currInterval ke last element se chota hai, to overlap hai
+            // tab merge kardo currInterval ki last value and next interval ki last me jo bhi max ho us se
+            if(intervals[i][0] <= currInterval[1]){
+                currInterval[1] = Math.max(currInterval[1], intervals[i][1]);
+            }
+            //agar koi overlap nhi hai, tab currInterval ko result me add kardo
+            else{
+                result.add(currInterval);
+                currInterval = intervals[i]; // & currInterval me ith index pe jo interval hai use dal do
+            }
+        }
+        //step 5 : add last interval(which is not added yet) to result.
+        result.add(currInterval);
+        // step 6: In the end return result in the form of array
+        return result.toArray(new int[result.size()][]);
+    }
