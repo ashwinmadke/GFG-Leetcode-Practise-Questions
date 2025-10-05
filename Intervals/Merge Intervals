@@ -1,5 +1,10 @@
 // https://leetcode.com/problems/merge-intervals/description/
 
+******************************************************************************************************************************************************************
+Optimal Approach :
+TC - O(nlogn)
+SC - O(1), ignored result array.
+
 public int[][] merge(int[][] intervals) {
         int n = intervals.length;
         // step 0: check if there is only 1 interval
