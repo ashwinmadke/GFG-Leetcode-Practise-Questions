@@ -3,7 +3,7 @@
 ******************************************************************************************************************************************************************
 Optimal Approach :
 TC - O(nlogn)
-SC - O(1), ignored result array.
+SC - O(n), bcoz of list
 
 public int[][] merge(int[][] intervals) {
         int n = intervals.length;
