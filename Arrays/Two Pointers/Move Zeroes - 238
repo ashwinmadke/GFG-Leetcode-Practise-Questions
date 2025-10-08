@@ -1,5 +1,6 @@
 // https://leetcode.com/problems/move-zeroes/
 
+******************************************************************************************************************************************************************
 Brute Force :
 Idea - Create a temp array, copy all non-zero elements into it, and fill the rest with zeros before copying back to the original array.
 TC - O(n)
@@ -26,8 +27,10 @@ public void moveZeroes(int[] nums) {
         }
     }
 
+******************************************************************************************************************************************************************
 Optimal Approach -Using Two Pointers
-Idea - Take 2 pointers, Iterate over array , if element found is non zero swap it with first pointer and increment j.
+Idea - Take 2 pointers (i & j), i will point to next non-zero element position, j will iterate over array, whenever it found non zero element just swap it with 
+ith element and increment i.
 TC - O(n)
 SC - O(1)
 
