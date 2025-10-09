@@ -1,7 +1,8 @@
 // https://leetcode.com/problems/majority-element/description/
 
-Brute Force - 
-Count frequency of each element using nested loop,and if count > n/2 , return that element 
+*******************************************************************************************************************************************************************
+Brute Approach - Using nested loop
+Idea - Count frequencies of each element using nested loop,and if count > n/2 , return that element 
 TC - O(n^2)
 SC - O(1)
 
@@ -22,8 +23,11 @@ public int majorityElement(int[] nums) {
         return -1;
     }
 
-Better Approach -
-Traverse the array, update count in a hashmap. Return element with frequency > n/2.
+*******************************************************************************************************************************************************************
+Better Approach - Using hashmap
+Idea - While traversing the array, build a frequency map. For each element, immediately check if its count exceeds n/2. If yes, return that element. 
+If no majority element, return -1.
+
 TC - O(n)
 SC - O(n)
 
@@ -41,4 +45,39 @@ public int majorityElement(int[] nums) {
        return -1;
     }
 
+*******************************************************************************************************************************************************************
+Optimal Approach - Moore’s Voting Algorithm
+Idea -
+1.Traverse the array maintaining a candidate and a count.
+2.If count == 0, take the current element as candidate.
+3.If element equals candidate, increment count; else, decrement count.
+4.After traversal, verify if candidate’s frequency > n/2. If yes, return candidate; else, return -1.
 
+TC - O(n)
+SC - O(1)
+
+public int majorityElement(int[] nums) {
+        int n = nums.length;
+
+        int candidate = -1;
+        int count = 0;
+
+        //step 1 : find candidate  
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+            if (num == candidate) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        // step 2 : Verify candidate
+        int freq = 0;
+        for (int i : nums) {
+            if (i == candidate)
+                freq++;
+        }
+        return freq > nums.length / 2 ? candidate : -1;
+    }
