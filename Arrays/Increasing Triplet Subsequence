@@ -1,0 +1,50 @@
+// https://leetcode.com/problems/increasing-triplet-subsequence/description/
+
+**********************************************************************************************************************************************************************
+Brute Approach - Check triplets using 3 loops (Time Limit Exceeded)
+TC - O(n^3)
+SC - O(1)
+
+public boolean increasingTriplet(int[] nums) {
+        int n = nums.length;
+        for(int i=0; i<n-2; i++){
+            for(int j=i+1; j<n-1; j++){
+                for(int k=j+1; k<n; k++){
+                    if(i<j && j<k && nums[i]<nums[j] && nums[j]<nums[k]){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+**********************************************************************************************************************************************************************
+Optimal Approach - use three variables
+// 3 variables le lo. num1, num2 and num3 current element array ka
+// ab num1 se compare karo, agr num3 num1 se chota hai to num1 ko update kardo
+// agr num1 se chota nhi hai to num2 se check karlo
+// agr dono se chota nhi hai to matlab num1 num2 set hai to return true kardo
+
+TC - O(n)
+SC - O(1)
+ public boolean increasingTriplet(int[] nums) {
+        int n = nums.length;
+        int num1 = Integer.MAX_VALUE;
+        int num2 = Integer.MAX_VALUE;
+        
+        for(int i=0; i<n; i++){
+            int num3 = nums[i];
+
+            if(num3 <= num1){ // first ask num1
+                num1 = num3;
+            }
+            else if(num3 <= num2){ // ask num2
+                num2 = num3;
+            }
+            else{ // num1 < num2 already set hai
+                return true;
+            }
+        }
+        return false;
+    }
