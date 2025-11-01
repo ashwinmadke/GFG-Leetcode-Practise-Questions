@@ -1,0 +1,55 @@
+// https://leetcode.com/problems/contains-duplicate/description/
+
+***********************************************************************************************************************************************************************
+Brute - Check every pair using nested loop
+TC - O(n^2)
+SC - O(1)
+
+public boolean containsDuplicate(int[] nums) {
+        for(int i=0;i<nums.length-1; i++){
+            for(int j=i+1; j<nums.length; j++){
+                if(nums[i] == nums[j]){
+                    return true;
+                }
+                
+            }
+        }
+        return false;
+  }
+
+***********************************************************************************************************************************************************************
+Better - Sort the array and while iterating over array compare curr element with previous.
+TC - O(nlogn)
+SC - O(1)
+
+public boolean containsDuplicate(int[] nums) {
+        Arrays.sort(nums);
+
+        for(int i=1; i<nums.length; i++){
+            if(nums[i] == nums[i-1]) return true;
+        }
+        return false;
+    }
+
+***********************************************************************************************************************************************************************
+Optimal - Use hashset to keep track of seen elements
+TC - O(n)
+SC - O(n)
+
+public boolean containsDuplicate(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for(int i : nums){
+            if(!set.add(i)){
+                return true; //return false if element already exists
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
